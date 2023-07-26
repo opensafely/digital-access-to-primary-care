@@ -1,3 +1,16 @@
 {
-  "files": {}
+  "files": {
+    "user-KatieDavies_1234-f2f-consultation.csv": {
+      "id": "user/KatieDavies_1234/f2f-consultation/7ea34807",
+      "url": "https://codelists.opensafely.org/codelist/user/KatieDavies_1234/f2f-consultation/7ea34807/",
+      "downloaded_at": "2023-07-26 09:54:26.118228Z",
+      "sha": "cf747d885100885f90726442ca44efaf07bfc370"
+    },
+    "user-KatieDavies_1234-virtual-consultation.csv": {
+      "id": "user/KatieDavies_1234/virtual-consultation/17b2bb3d",
+      "url": "https://codelists.opensafely.org/codelist/user/KatieDavies_1234/virtual-consultation/17b2bb3d/",
+      "downloaded_at": "2023-07-26 09:54:26.423859Z",
+      "sha": "cb50b915ab0b6ed02fda74c24f5f61d020739b23"
+    }
+  }
 }
