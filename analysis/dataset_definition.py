@@ -6,12 +6,14 @@ from ehrql.tables.beta.tpp import (
     clinical_events,
     patients,
     practice_registrations,
+    addresses,
 )
 
 from codelists import (
     f2f_consultation,
     virtual_consultation,
 )
+
 
 # Define start and end date of study period because we are using these dates
 # at various places further down in the dataset definition
@@ -60,3 +62,14 @@ dataset.count_virtual_consultation = selected_events.where(
 # registered and above 18 to be included
 dataset.define_population(has_registration
                           & (dataset.patient_age > 18))
+
+
+# Define patient address: MSOA, rural-urban and IMD rank, using latest data for each patient
+latest_address_per_patient = addresses.sort_by(addresses.start_date).last_for_patient()
+dataset.patient_msoa = latest_address_per_patient.msoa_code
+dataset.patient_rural_urban = latest_address_per_patient.rural_urban_classification
+dataset.patient_imdrank = latest_address_per_patient.imd_rounded
+
+# Define patient sex and date of death
+dataset.patient_sex = patients.sex
+dataset.patient_dod = patients.date_of_death
