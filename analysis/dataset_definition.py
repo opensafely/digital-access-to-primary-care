@@ -76,13 +76,13 @@ dataset.patient_sex = patients.sex
 dataset.patient_dod = patients.date_of_death
 
 # Define patient ethnicity
-dataset.latest_ethnicity_code = (
+latest_ethnicity_code = (
     clinical_events.where(clinical_events.snomedct_code.is_in(ethnicity_codelist))
     .where(clinical_events.date.is_on_or_before("2023-01-01"))
     .sort_by(clinical_events.date)
     .last_for_patient()
     .snomedct_code
 )
-dataset.latest_ethnicity_group = dataset.latest_ethnicity_code.to_category(
+dataset.latest_ethnicity_group = latest_ethnicity_code.to_category(
     ethnicity_codelist
 )
