@@ -15,7 +15,6 @@ from codelists import (
     ethnicity_codelist,
 )
 
-
 # Define start and end date of study period because we are using these dates
 # at various places further down in the dataset definition
 start_date = "2020-03-01"
@@ -64,12 +63,11 @@ dataset.count_virtual_consultation = selected_events.where(
 dataset.define_population(has_registration
                           & (dataset.patient_age > 18))
 
-
 # Define patient address: MSOA, rural-urban and IMD rank, using latest data for each patient
 latest_address_per_patient = addresses.sort_by(addresses.start_date).last_for_patient()
 dataset.patient_msoa = latest_address_per_patient.msoa_code
 dataset.patient_rural_urban = latest_address_per_patient.rural_urban_classification
-dataset.patient_imdrank = latest_address_per_patient.imd_rounded
+dataset.patient_imd_rounded = latest_address_per_patient.imd_rounded
 
 # Define patient sex and date of death
 dataset.patient_sex = patients.sex
