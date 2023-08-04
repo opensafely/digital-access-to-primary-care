@@ -1,0 +1,82 @@
+code,term
+153406009,Seen in GP's surgery
+153417005,(Seen in own home) or (home visit)
+153462009,Bank holiday home visit
+153647000,Urgent home visit
+153648005,Acute home visit
+153649002,Chronic home visit
+153651003,Home visit elderly assessment
+183737004,Domiciliary visit received
+183738009,General medicine domiciliary visit done
+183739001,Pediatric domiciliary visit done
+183740004,Dermatology domiciliary visit done
+183741000,Cardiology domiciliary visit done
+183742007,Immunology domiciliary visit done
+183743002,Neurology domiciliary visit done
+183744008,Geriatric domiciliary visit done
+183745009,Gastroenterology domiciliary visit done
+183746005,Psychiatry domiciliary visit done
+183747001,Rheumatology domiciliary visit done
+183748006,Pulmonary medicine domiciliary visit done
+183749003,Psychogeriatric domiciliary visit done
+183750003,Oncology domiciliary visit done
+183751004,Diabetology domiciliary visit done
+183753001,General surgical domiciliary visit done
+183754007,Ophthalmology domiciliary visit done
+183755008,"Ear, nose and throat domiciliary visit done"
+183756009,Orthopedic domiciliary visit done
+183757000,Neurosurgical domiciliary visit done
+183759002,Pediatric surgical domiciliary visit done
+183760007,Obstetric domiciliary visit done
+183761006,Gynecological domiciliary visit done
+183762004,Plastic surgery domiciliary visit done
+183763009,Oral surgery domiciliary visit done
+183764003,Urological domiciliary visit done
+185202000,Seen in general practitioner surgery
+185213002,(Seen in own home) or (home visit)
+185259000,Bank holiday home visit
+185466002,Home visit for urgent condition
+185467006,Home visit for acute condition
+185468001,Home visit for chronic condition
+185470005,Home visit elderly assessment
+196941000000109,Post hospital discharge visit
+199281000000101,Seen in general practitioner unit
+210098006,Domiciliary or rest home patient evaluation and management
+214751000000104,Seen in GP unit
+214761000000101,Seen in GP unit
+225929007,Joint home visit
+24631000000103,Residential home visit note
+24751000000101,Nursing home visit note
+248301000000103,Phlebotomy domiciliary visit done
+25651000000106,Home visit note
+308538009,Domiciliary visit status
+315205008,Bank holiday home visit
+325861000000105,Face to face consultation encounter type
+325941000000100,Face to face assessment encounter type
+350491000000105,Home visit for treatment provision
+35291000000104,Residential home visit note
+35301000000100,Residential home visit note
+35351000000104,Home visit note
+35361000000101,Home visit note
+35851000000108,Nursing home visit note
+35861000000106,Nursing home visit note
+439058005,Home visit for care and maintenance of urinary catheter
+439708006,Home visit
+439887005,Home visit for mechanical ventilation care
+440146002,Home visit for care and maintenance of colostomy
+440611006,Home visit for marriage counseling
+440696002,Home visit for intramuscular injection
+441244001,Home visit for cystostomy care and maintenance
+50357006,Evaluation and management of patient at home
+505581000000108,Stop smoking face to face follow-up
+516671000000101,Home visit for anticoagulation monitoring
+68341005,"Hemodialysis, supervision at home"
+704126008,Home visit for anticoagulant drug monitoring
+832891000000108,Joint home visit
+841681000000103,Community nurse first visit
+889311000000109,Care home visit
+889321000000103,Care home visit 
+889331000000101,Care home visit for initial patient assessment
+889341000000105,Care home visit for initial patient assessment 
+889351000000108,Care home visit for follow-up patient review
+889361000000106,Care home visit for follow-up patient review 
