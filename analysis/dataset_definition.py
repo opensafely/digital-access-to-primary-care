@@ -1,5 +1,7 @@
 from ehrql import (
     Dataset,
+    case,
+    when
 )
 
 from ehrql.tables.beta.tpp import (
@@ -81,6 +83,17 @@ latest_ethnicity_code = (
     .last_for_patient()
     .snomedct_code
 )
-dataset.latest_ethnicity_group = latest_ethnicity_code.to_category(
+
+latest_ethnicity = latest_ethnicity_code.to_category(
     ethnicity_codelist
+)
+
+# Convert ethnicity group numbers into strings
+dataset.ethnicity = case(
+    when(latest_ethnicity == "1").then("White"),
+    when(latest_ethnicity == "2").then("Mixed"),
+    when(latest_ethnicity == "3").then("Asian or Asian British"),
+    when(latest_ethnicity == "4").then("Black or Black British"),
+    when(latest_ethnicity == "5").then("Chinese or Other Ethnic Groups"),
+    default="missing",
 )
