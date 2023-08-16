@@ -1,8 +1,4 @@
-from ehrql import (
-    Dataset,
-    case,
-    when
-)
+from ehrql import Dataset, case, when
 
 from ehrql.tables.beta.tpp import (
     clinical_events,
@@ -19,8 +15,8 @@ from codelists import (
 
 # Define start and end date of study period because we are using these dates
 # at various places further down in the dataset definition
-start_date = "2020-03-01"
-end_date = "2021-04-01"
+start_date = "2020-04-01"
+end_date = "2021-03-31"
 
 # Instantiate dataset
 dataset = Dataset()
@@ -32,9 +28,12 @@ selected_events = clinical_events.where(
 )
 
 # Define variable that checks if a patients is registered at the start date
-has_registration = practice_registrations.for_patient_on(start_date).exists_for_patient()
+has_registration = practice_registrations.for_patient_on(
+    start_date
+).exists_for_patient()
 
 dataset.patient_age = patients.age_on(start_date)
+dataset.patient_age_ge65 = dataset.patient_age >= 65
 
 # Check if a patient has a clinical code in the time period defined
 # above (selected_events) that are in the f2f_consultation codelist
@@ -62,8 +61,7 @@ dataset.count_virtual_consultation = selected_events.where(
 
 # Define population, currently I set the conditions that patients need to be
 # registered and above 18 to be included
-dataset.define_population(has_registration
-                          & (dataset.patient_age > 18))
+dataset.define_population(has_registration & (dataset.patient_age > 18))
 
 # Define patient address: MSOA, rural-urban and IMD rank, using latest data for each patient
 latest_address_per_patient = addresses.sort_by(addresses.start_date).last_for_patient()
@@ -84,9 +82,7 @@ latest_ethnicity_code = (
     .snomedct_code
 )
 
-latest_ethnicity = latest_ethnicity_code.to_category(
-    ethnicity_codelist
-)
+latest_ethnicity = latest_ethnicity_code.to_category(ethnicity_codelist)
 
 # Convert ethnicity group numbers into strings
 dataset.ethnicity = case(

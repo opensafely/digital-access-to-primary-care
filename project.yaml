@@ -5,11 +5,19 @@ expectations:
 
 actions:
 
-  generate_study_population:
+  generate_consultation_dataset:
     run: >
       ehrql:v0
         generate-dataset analysis/dataset_definition.py
-        --output output/dataset.csv
+        --output output/consultation_dataset.arrow
     outputs:
       highly_sensitive:
-        study_population: output/dataset.csv
+        study_population: output/consultation_dataset.arrow
+
+  summarise_consultation_dataset:
+    run: >
+      r:latest analysis/summarise_consultation_dataset.R
+    needs: [generate_consultation_dataset]
+    outputs:
+      moderately_sensitive:
+        measure_csv: output/summary_consultation_dataset.csv
