@@ -59,6 +59,8 @@ dataset.count_virtual_consultation = selected_events.where(
     clinical_events.snomedct_code.is_in(virtual_consultation)
 ).count_for_patient()
 
+dataset.has_f2f_and_virtual_consultation = dataset.has_virtual_consultation & dataset.has_f2f_consultation
+
 # Define population, currently I set the conditions that patients need to be
 # registered and above 18 to be included
 dataset.define_population(has_registration & (dataset.patient_age > 18))
