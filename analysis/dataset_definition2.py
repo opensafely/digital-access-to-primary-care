@@ -70,18 +70,18 @@ f_clincal_date = clinical_events.where(
 ).first_for_patient().date.month
 
 dataset.f2f_clinical_date = case(
-    when(f_clincal_date == "1").then("January"),
-    when(f_clincal_date == "2").then("February"),
-    when(f_clincal_date == "3").then("March"),
-    when(f_clincal_date == "4").then("April"),
-    when(f_clincal_date == "5").then("May"),
-    when(f_clincal_date == "6").then("June"),
-    when(f_clincal_date == "7").then("July"),
-    when(f_clincal_date == "8").then("August"),
-    when(f_clincal_date == "9").then("September"),
-    when(f_clincal_date == "10").then("October"),
-    when(f_clincal_date == "11").then("November"),
-    when(f_clincal_date == "12").then("December"),
+    when(f_clincal_date == 1).then("January"),
+    when(f_clincal_date == 2).then("February"),
+    when(f_clincal_date == 3).then("March"),
+    when(f_clincal_date == 4).then("April"),
+    when(f_clincal_date == 5).then("May"),
+    when(f_clincal_date == 6).then("June"),
+    when(f_clincal_date == 7).then("July"),
+    when(f_clincal_date == 8).then("August"),
+    when(f_clincal_date == 9).then("September"),
+    when(f_clincal_date == 10).then("October"),
+    when(f_clincal_date == 11).then("November"),
+    when(f_clincal_date == 12).then("December"),
     default="missing",
 )
 
@@ -92,18 +92,18 @@ v_clincal_date = clinical_events.where(
 ).first_for_patient().date.month
 
 dataset.virtual_clinical_date = case(
-    when(v_clincal_date == "1").then("January"),
-    when(v_clincal_date == "2").then("February"),
-    when(v_clincal_date == "3").then("March"),
-    when(v_clincal_date == "4").then("April"),
-    when(v_clincal_date == "5").then("May"),
-    when(v_clincal_date == "6").then("June"),
-    when(v_clincal_date == "7").then("July"),
-    when(v_clincal_date == "8").then("August"),
-    when(v_clincal_date == "9").then("September"),
-    when(v_clincal_date == "10").then("October"),
-    when(v_clincal_date == "11").then("November"),
-    when(v_clincal_date == "12").then("December"),
+    when(v_clincal_date == 1).then("January"),
+    when(v_clincal_date == 2).then("February"),
+    when(v_clincal_date == 3).then("March"),
+    when(v_clincal_date == 4).then("April"),
+    when(v_clincal_date == 5).then("May"),
+    when(v_clincal_date == 6).then("June"),
+    when(v_clincal_date == 7).then("July"),
+    when(v_clincal_date == 8).then("August"),
+    when(v_clincal_date == 9).then("September"),
+    when(v_clincal_date == 10).then("October"),
+    when(v_clincal_date == 11).then("November"),
+    when(v_clincal_date == 12).then("December"),
     default="missing",
 )
 
