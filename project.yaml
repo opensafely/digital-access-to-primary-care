@@ -14,6 +14,15 @@ actions:
       highly_sensitive:
         study_population: output/consultation_dataset.arrow
 
+  generate_consultation_dataset2:
+    run: >
+      ehrql:v0
+        generate-dataset analysis/dataset_definition2.py
+        --output output/consultation_dataset2.arrow
+    outputs:
+      highly_sensitive:
+        study_population: output/consultation_dataset2.arrow
+
   summarise_consultation_dataset:
     run: >
       r:latest analysis/summarise_consultation_dataset.R
@@ -22,6 +31,14 @@ actions:
       moderately_sensitive:
         measure_csv: output/summary_consultation_dataset.csv
 
+  summarise_consultation_dataset2:
+    run: >
+      r:latest analysis/summarise_consultation_dataset2.R
+    needs: [generate_consultation_dataset2]
+    outputs:
+      moderately_sensitive:
+        measure_csv: output/summary_consultation_dataset2.csv
+
   visualise_consultation_dataset:
     run: >
       r:latest analysis/visualise_consultation_dataset.R
@@ -29,3 +46,11 @@ actions:
     outputs:
       moderately_sensitive:
         measure_csv: output/figure_consultation_type_by_age_group.png
+
+  visualise_consultation_dataset2:
+    run: >
+      r:latest analysis/visualise_consultation_dataset2.R
+    needs: [summarise_consultation_dataset2]
+    outputs:
+      moderately_sensitive:
+        measure_csv: output/figure_consultation_type_by_age_group2.png      
