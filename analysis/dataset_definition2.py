@@ -15,8 +15,8 @@ from codelists import (
 
 # Define start and end date of study period because we are using these dates
 # at various places further down in the dataset definition
-start_date = "2020-04-01"
-end_date = "2021-03-31"
+start_date = "2019-04-01"
+end_date = "2020-03-31"
 
 # Instantiate dataset
 dataset = Dataset()
@@ -106,6 +106,7 @@ dataset.virtual_clinical_date = case(
     when(v_clincal_date == "12").then("December"),
     default="missing",
 )
+
 # Define population, currently I set the conditions that patients need to be
 # registered and above 18 to be included
 dataset.define_population(has_registration & (dataset.patient_age > 18))
