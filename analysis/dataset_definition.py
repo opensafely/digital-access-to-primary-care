@@ -65,9 +65,15 @@ dataset.define_population(has_registration & (dataset.age > 18))
 
 # Define patient address: MSOA, rural-urban and IMD rank, using latest data for each patient
 latest_address_per_patient = addresses.sort_by(addresses.start_date).last_for_patient()
-dataset.msoa = latest_address_per_patient.msoa_code
-dataset.rural_urban = latest_address_per_patient.rural_urban_classification
-dataset.imd_rounded = latest_address_per_patient.imd_rounded
+imd_rounded = latest_address_per_patient.imd_rounded
+dataset.imd_quintile = case(
+    when((imd_rounded >= 0) & (imd_rounded < int(32844 * 1 / 5))).then("1"),
+    when(imd_rounded < int(32844 * 2 / 5)).then("2"),
+    when(imd_rounded < int(32844 * 3 / 5)).then("3"),
+    when(imd_rounded < int(32844 * 4 / 5)).then("4"),
+    when(imd_rounded < int(32844 * 5 / 5)).then("5"),
+    default="Missing",
+)
 
 # Define patient sex and date of death
 dataset.sex = patients.sex
