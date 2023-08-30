@@ -28,4 +28,5 @@ actions:
     needs: [summarise_consultation_dataset]
     outputs:
       moderately_sensitive:
-        measure_csv: output/figure_consultation_type_by_age_group.png
+        figure_n_has: output/figure_n_has_consultation_by_age.png
+        figure_n_sum: output/figure_n_sum_consultation_by_age.png
