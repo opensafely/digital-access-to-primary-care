@@ -12,7 +12,7 @@ df <- arrow::read_feather("output/consultation_dataset.arrow")
 # Count number of consultations grouped by age group
 # We could add more variables to group by here, e.g., ethnicity sex
 df_summary <- df %>% 
-  dplyr::group_by(patient_age_ge65) %>%
+  dplyr::group_by(age_greater_equal_65) %>%
   dplyr::summarise(count_f2f = sum(count_f2f_consultation, na.rm = TRUE),
                    count_virtual = sum(count_virtual_consultation, na.rm = TRUE))
 

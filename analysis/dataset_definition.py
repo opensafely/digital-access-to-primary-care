@@ -32,8 +32,8 @@ has_registration = practice_registrations.for_patient_on(
     start_date
 ).exists_for_patient()
 
-dataset.patient_age = patients.age_on(start_date)
-dataset.patient_age_ge65 = dataset.patient_age >= 65
+dataset.age = patients.age_on(start_date)
+dataset.age_greater_equal_65 = dataset.age >= 65
 
 # Check if a patient has a clinical code in the time period defined
 # above (selected_events) that are in the f2f_consultation codelist
@@ -61,17 +61,17 @@ dataset.count_virtual_consultation = selected_events.where(
 
 # Define population, currently I set the conditions that patients need to be
 # registered and above 18 to be included
-dataset.define_population(has_registration & (dataset.patient_age > 18))
+dataset.define_population(has_registration & (dataset.age > 18))
 
 # Define patient address: MSOA, rural-urban and IMD rank, using latest data for each patient
 latest_address_per_patient = addresses.sort_by(addresses.start_date).last_for_patient()
-dataset.patient_msoa = latest_address_per_patient.msoa_code
-dataset.patient_rural_urban = latest_address_per_patient.rural_urban_classification
-dataset.patient_imd_rounded = latest_address_per_patient.imd_rounded
+dataset.msoa = latest_address_per_patient.msoa_code
+dataset.rural_urban = latest_address_per_patient.rural_urban_classification
+dataset.imd_rounded = latest_address_per_patient.imd_rounded
 
 # Define patient sex and date of death
-dataset.patient_sex = patients.sex
-dataset.patient_dod = patients.date_of_death
+dataset.sex = patients.sex
+dataset.dod = patients.date_of_death
 
 # Define patient ethnicity
 latest_ethnicity_code = (

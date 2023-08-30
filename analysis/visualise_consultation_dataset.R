@@ -16,6 +16,6 @@ df_summary %>%
 consultation_plot <- ggplot(df_summary, aes(start_date, value, colour = consultation_type)) +
   geom_point() +
   labs(x = NULL, y = "Count of all consultations", colour = "Type of consultation") +
-  facet_wrap(~factor(patient_age_ge65, levels = c(FALSE, TRUE), labels = c("Age > 18 and < 65", "Age >= 65")))
+  facet_wrap(~factor(age_greater_equal_65, levels = c(FALSE, TRUE), labels = c("Age > 18 and < 65", "Age >= 65")))
 
 ggsave("output/figure_consultation_type_by_age_group.png")
