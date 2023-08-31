@@ -1,3 +1,5 @@
+from argparse import ArgumentParser
+import datetime
 from ehrql import Dataset, case, when
 
 from ehrql.tables.beta.tpp import (
@@ -13,10 +15,13 @@ from codelists import (
     ethnicity_codelist,
 )
 
-# Define start and end date of study period because we are using these dates
-# at various places further down in the dataset definition
-start_date = "2020-04-01"
-end_date = "2021-03-31"
+# Get start and end date from project.yaml
+parser = ArgumentParser()
+parser.add_argument("--start-date", type=datetime.date.fromisoformat)
+parser.add_argument("--end-date", type=datetime.date.fromisoformat)
+args = parser.parse_args()
+start_date = args.start_date
+end_date = args.end_date
 
 # Instantiate dataset
 dataset = Dataset()
@@ -47,6 +52,13 @@ dataset.count_f2f_consultation = selected_events.where(
     clinical_events.snomedct_code.is_in(f2f_consultation)
 ).count_for_patient()
 
+dataset.last_f2f_consultation_code = (
+    selected_events.where(clinical_events.snomedct_code.is_in(f2f_consultation))
+    .sort_by(clinical_events.date)
+    .last_for_patient()
+    .snomedct_code
+)
+
 # Check if a patient has a clinical code in the time period defined
 # above (selected_events) that are in the virtual_consultation codelist
 dataset.has_virtual_consultation = selected_events.where(
@@ -58,6 +70,13 @@ dataset.has_virtual_consultation = selected_events.where(
 dataset.count_virtual_consultation = selected_events.where(
     clinical_events.snomedct_code.is_in(virtual_consultation)
 ).count_for_patient()
+
+dataset.last_virtual_consultation_code = (
+    selected_events.where(clinical_events.snomedct_code.is_in(virtual_consultation))
+    .sort_by(clinical_events.date)
+    .last_for_patient()
+    .snomedct_code
+)
 
 # Define population, currently I set the conditions that patients need to be
 # registered and above 18 to be included
@@ -82,7 +101,7 @@ dataset.dod = patients.date_of_death
 # Define patient ethnicity
 latest_ethnicity_code = (
     clinical_events.where(clinical_events.snomedct_code.is_in(ethnicity_codelist))
-    .where(clinical_events.date.is_on_or_before("2023-01-01"))
+    .where(clinical_events.date.is_on_or_before(end_date))
     .sort_by(clinical_events.date)
     .last_for_patient()
     .snomedct_code
