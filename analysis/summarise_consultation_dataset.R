@@ -7,7 +7,7 @@ library(readr)
 library(tidyr)
 
 # Read arrow dataset and assign to df
-df_20200401_to_20210331 <- arrow::read_feather("output/consultation_dataset_2020-04-01_to_2021-03-31.arrow")
+df_20200401_to_20210331 <- arrow::read_feather(here::here("output", "consultation_dataset_2020-04-01_to_2021-03-31.arrow"))
 
 # Count sum and has (yes/no) of consultations grouped by age group
 # We could add more variables to group by here, e.g., ethnicity or sex
@@ -33,4 +33,5 @@ df_summary <- df_summary %>%
                            TRUE ~ round(value, -1)))
 
 # Write data
-write_csv(df_summary, here::here("output/summary_consultation_dataset.csv"))
+fs::dir_create(here::here("output", "data"))
+write_csv(df_summary, here::here("output", "data", "summary_consultation_dataset.csv"))
