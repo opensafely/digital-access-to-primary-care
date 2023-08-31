@@ -29,8 +29,8 @@ df_summary <- df_summary %>%
 # Apply disclosure controls
 # Remove values lower or equal 7 and round to nearest 10
 df_summary <- df_summary %>%
-  filter(value > 7) %>%
-  mutate(value = round(value, -1))
+  mutate(value = case_when(value <= 7 ~ NA_real_,
+                           TRUE ~ round(value, -1)))
 
 # Write data
 write_csv(df_summary, here::here("output/summary_consultation_dataset.csv"))
