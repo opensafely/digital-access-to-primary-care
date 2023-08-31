@@ -23,7 +23,7 @@ actions:
     needs: [generate_consultation_dataset_2020-04-01_to_2021-03-31]
     outputs:
       moderately_sensitive:
-        measure_csv: output/summary_consultation_dataset.csv
+        measure_csv: output/data/summary_consultation_dataset.csv
 
   visualise_consultation_datasets:
     run: >
@@ -31,5 +31,5 @@ actions:
     needs: [summarise_consultation_datasets]
     outputs:
       moderately_sensitive:
-        figure_n_has: output/figure_n_has_consultation_by_age.png
-        figure_n_sum: output/figure_n_sum_consultation_by_age.png
+        figure_n_has: output/figures/figure_n_has_consultation_by_age.png
+        figure_n_sum: output/figures/figure_n_sum_consultation_by_age.png
