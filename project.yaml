@@ -17,13 +17,23 @@ actions:
       highly_sensitive:
         study_population: output/consultation_dataset_2020-04-01_to_2021-03-31.arrow
 
+
+
   summarise_consultation_datasets:
     run: >
       r:latest analysis/summarise_consultation_dataset.R
     needs: [generate_consultation_dataset_2020-04-01_to_2021-03-31]
     outputs:
       moderately_sensitive:
-        measure_csv: output/summary_consultation_dataset.csv
+        measure_csv: output/data/summary_consultation_dataset.csv
+
+  summarise_consultation_codes:
+    run: >
+      r:latest analysis/investigate_consultation_codes.R
+    needs: [generate_consultation_dataset_2020-04-01_to_2021-03-31]
+    outputs:
+      moderately_sensitive:
+        measure_csv: output/data/summary_consultation_codes.csv
 
   visualise_consultation_datasets:
     run: >
@@ -31,5 +41,5 @@ actions:
     needs: [summarise_consultation_datasets]
     outputs:
       moderately_sensitive:
-        figure_n_has: output/figure_n_has_consultation_by_age.png
-        figure_n_sum: output/figure_n_sum_consultation_by_age.png
+        figure_n_has: output/figures/figure_n_has_consultation_by_age.png
+        figure_n_sum: output/figures/figure_n_sum_consultation_by_age.png

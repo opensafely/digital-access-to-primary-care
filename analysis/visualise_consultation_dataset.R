@@ -6,8 +6,11 @@ library(dplyr)
 library(ggplot2)
 library(tidyr)
 
+# Create output directory for figures
+fs::dir_create(here::here("output", "figures"))
+
 # Read csv summary dataset
-df_summary <- readr::read_csv("output/summary_consultation_dataset.csv")
+df_summary <- readr::read_csv(here::here("output", "data", "summary_consultation_dataset.csv"))
 
 # Create figure with sum of all consultations (this counts multiple consultations per patient)
 plot_n_sum_consultation_by_age <- df_summary %>% 
@@ -21,7 +24,7 @@ plot_n_sum_consultation_by_age <- df_summary %>%
                        levels = c(FALSE, TRUE), 
                        labels = c("Age > 18 and < 65", "Age >= 65")))
 
-ggsave("output/figure_n_sum_consultation_by_age.png")
+ggsave(here::here("output", "figures", "figure_n_sum_consultation_by_age.png"))
 
 # Create figure with sum of all patients that had consultations
 plot_n_has_consultation_by_age <- df_summary %>% 
@@ -35,4 +38,4 @@ plot_n_has_consultation_by_age <- df_summary %>%
                        levels = c(FALSE, TRUE), 
                        labels = c("Age > 18 and < 65", "Age >= 65")))
 
-ggsave("output/figure_n_has_consultation_by_age.png")
+ggsave(here::here("output", "figures", "figure_n_has_consultation_by_age.png"))
