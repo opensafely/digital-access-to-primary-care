@@ -26,5 +26,11 @@ df_summary <- df_summary %>%
                names_to = c("summary_type", "consultation_type"),
                values_to = "value", names_sep = "_(?=f2f|virtual)")
 
+# Apply disclosure controls
+# Remove values lower or equal 7 and round to nearest 10
+df_summary <- df_summary %>%
+  filter(value > 7) %>%
+  mutate(value = round(value, -1))
+
 # Write data
 write_csv(df_summary, here::here("output/summary_consultation_dataset.csv"))
