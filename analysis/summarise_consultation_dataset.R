@@ -5,6 +5,7 @@ library(magrittr)
 library(dplyr)
 library(readr)
 library(tidyr)
+library(purrr)
 
 # Read file paths of all datasets
 consultation_dataset_paths <- fs::dir_ls(

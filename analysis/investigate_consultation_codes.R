@@ -8,6 +8,7 @@ library(readr)
 library(tidyr)
 library(stringr)
 library(fs)
+library(purrr)
 
 # Read file paths of all datasets
 consultation_dataset_paths <- dir_ls(
