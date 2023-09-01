@@ -1,26 +1,45 @@
 # Load packages
+# Load packages
 library(arrow)
 library(here)
 library(magrittr)
 library(dplyr)
 library(readr)
 library(tidyr)
+library(stringr)
+library(fs)
 
-# Read arrow dataset and assign to df
-df_20200401_to_20210331 <- arrow::read_feather(here::here("output", "consultation_dataset_2020-04-01_to_2021-03-31.arrow")) %>%
-  dplyr::mutate(start_date = "2020-04-01",
-                end_date = "2021-03-31")
+# Read file paths of all datasets
+consultation_dataset_paths <- dir_ls(
+  path = "output/",
+  glob = "*consultation_dataset_*.arrow$"
+)
 
-count_clinical_codes <- df_20200401_to_20210331 %>%
+# Define regex that extracts the date range from the filename
+regex_get_dates <- "\\d{4}-\\d{2}-\\d{2}_to_\\d{4}-\\d{2}-\\d{2}"
+
+# Load all datasets and read dates from file names
+consultation_datasets <- consultation_dataset_paths %>%
+  map(read_feather) %>%
+  bind_rows(.id = "file_name") %>%
+  mutate(file_name = str_extract(file_name, regex_get_dates)) %>%
+  separate(file_name, c("start_date", "end_date"), sep = "_to_")
+
+
+count_clinical_codes <- consultation_datasets %>%
   select(last_f2f_consultation_code, last_virtual_consultation_code) %>%
-  pivot_longer(cols = c(last_f2f_consultation_code, last_virtual_consultation_code),
-               names_to = "consultation_type",
-               values_to = "snomedct_code") %>%
+  pivot_longer(
+    cols = c(last_f2f_consultation_code, last_virtual_consultation_code),
+    names_to = "consultation_type",
+    values_to = "snomedct_code"
+  ) %>%
   group_by(consultation_type, snomedct_code) %>%
   count() %>%
-  arrange(-n) %>%
+  replace_na(list(snomedct_code = "(Missing)")) %>%
+  mutate(consultation_type = str_extract(consultation_type, "f2f|virtual")) %>%
+  arrange(consultation_type, -n) %>%
   filter(n >= 7) %>%
   mutate(n = round(n, -1))
 
-fs::dir_create(here::here("output", "data"))
-write_csv(count_clinical_codes, here::here("output", "data", "summary_consultation_codes.csv"))
+dir_create(here("output", "data"))
+write_csv(count_clinical_codes, here("output", "data", "summary_consultation_codes.csv"))
