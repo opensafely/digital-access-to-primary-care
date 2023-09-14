@@ -1,5 +1,4 @@
 # Load packages
-# Load packages
 library(arrow)
 library(here)
 library(magrittr)
@@ -57,7 +56,7 @@ count_clinical_codes <- consultation_datasets %>%
   group_by(consultation_type) %>%
   filter(n >= 7) %>%
   mutate(n = round(n, -1)) %>%
-  mutate(percent = n / sum(n)) %>%
+  mutate(percent = round(n / sum(n), 3)) %>%
   ungroup()
 
 count_clinical_codes <- count_clinical_codes %>%
