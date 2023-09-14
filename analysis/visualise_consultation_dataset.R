@@ -43,6 +43,12 @@ plot_n_has_consultation_by_age <- df_summary %>%
     y = "Count of patients with consultations",
     fill = "Type of consultation"
   ) +
+  scale_x_date(
+      labels = scales::label_date_short()
+    ) +
+  scale_y_continuous(
+    labels = scales::label_comma()
+    ) +
   facet_wrap(~ factor(age_greater_equal_65,
     levels = c(FALSE, TRUE),
     labels = c("Age > 18 and < 65", "Age >= 65")
