@@ -35,24 +35,35 @@ code,term
 35501000000109,Telephone call to a patient
 35531000000103,Telephone consultation
 35541000000107,Telephone consultation
+38141000000108,E-mail sent to patient
+384131000000101,Remote encounter type
+38471000000105,E-mail sent to patient
 386472008,Telephone consultation
 386473003,Telephone follow-up
+38871000000108,E-mail sent to patient
 389918006,Patient given telephone advice during surgery hours
 390652002,Patient given telephone advice during surgery hours
 390942004,Patient given telephone advice during surgery hours
 401267002,Telephone triage encounter
+401271004,Email sent to patient
+40951000000106,E-mail sent to patient
+43311000000103,E-mail sent to patient
 445450000,Encounter by short message service text messaging
 448337001,Telemedicine consultation with patient
+45491000000102,E-mail sent to patient
 520141000000108,Telephone consultation for suspected influenza A virus subtype H1N1
 520151000000106,Telephone consultation for suspected influenza A virus subtype  H1N1 
 520171000000102,Advice given about influenza A virus subtype H1N1 by telephone
 520181000000100,Advice given about influenza A virus subtype H1N1 by telephone 
 557761000005104,E-mail consultation
+719407002,Remote non-verbal consultation
 719410009,Consultation via video conference
 763184009,Telepractice consultation
 76740001,Psychiatric telephone consultation or therapy with patient
 773531000000103,Telemedicine consultation
 854891000000104,Telehealth encounter type
+868184008,Telemedicine consultation with provider
 885661000000103,Able to participate in telemedicine consultation
+978811000000109,Remote non-verbal consultation
 978871000000104,Consultation via multimedia
 978881000000102,Consultation via video conference
