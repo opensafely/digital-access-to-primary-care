@@ -30,13 +30,18 @@ df_summary <- consultation_datasets %>%
   dplyr::summarise(
     n_sum_f2f = sum(count_f2f_consultation, na.rm = TRUE),
     n_sum_virtual = sum(count_virtual_consultation, na.rm = TRUE),
+    n_sum_appointment = sum(count_appointments, na.rm = TRUE),
     n_has_f2f = sum(has_f2f_consultation, na.rm = TRUE),
-    n_has_virtual = sum(has_virtual_consultation, na.rm = TRUE)
+    n_has_virtual = sum(has_virtual_consultation, na.rm = TRUE),
+    n_has_appointment = sum(has_appointments, na.rm = TRUE),
   ) %>%
   pivot_longer(
-    cols = c(n_sum_f2f, n_sum_virtual, n_has_f2f, n_has_virtual),
+    cols = c(
+      n_sum_f2f, n_sum_virtual, n_sum_appointment,
+      n_has_f2f, n_has_virtual, n_has_appointment
+    ),
     names_to = c("summary_type", "consultation_type"),
-    values_to = "value", names_sep = "_(?=f2f|virtual)"
+    values_to = "value", names_sep = "_(?=f2f|virtual|appointment)"
   )
 
 # Apply disclosure controls
