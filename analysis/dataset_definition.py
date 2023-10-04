@@ -7,6 +7,7 @@ from ehrql.tables.beta.tpp import (
     patients,
     practice_registrations,
     addresses,
+    appointments,
 )
 
 from codelists import (
@@ -69,6 +70,32 @@ dataset.has_virtual_consultation = selected_events.where(
 # in the time period defined above (selected_events)
 dataset.count_virtual_consultation = selected_events.where(
     clinical_events.snomedct_code.is_in(virtual_consultation)
+).count_for_patient()
+
+dataset.has_appointments = appointments.where(
+    appointments.status.is_in(
+        [
+            "Arrived",
+            "In Progress",
+            "Finished",
+            "Visit",
+            "Waiting",
+            "Patient Walked Out",
+        ]
+    )
+).exists_for_patient()
+
+dataset.count_appointments = appointments.where(
+    appointments.status.is_in(
+        [
+            "Arrived",
+            "In Progress",
+            "Finished",
+            "Visit",
+            "Waiting",
+            "Patient Walked Out",
+        ]
+    )
 ).count_for_patient()
 
 dataset.last_virtual_consultation_code = (
