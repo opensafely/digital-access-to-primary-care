@@ -18,7 +18,7 @@ df_summary <- read_csv(here("output", "data", "summary_consultation_dataset.csv"
 
 # Create figure with sum of all consultations (this counts multiple consultations per patient)
 plot_n_sum_consultation_by_age <- df_summary %>%
-  filter(summary_type == "n_sum") %>%
+  filter(summary_type == "n_count") %>%
   ggplot(aes(x = start_date, y = value, fill = consultation_type)) +
   geom_bar(stat = "identity", position = position_dodge()) +
   labs(

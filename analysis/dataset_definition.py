@@ -72,30 +72,44 @@ dataset.count_virtual_consultation = selected_events.where(
     clinical_events.snomedct_code.is_in(virtual_consultation)
 ).count_for_patient()
 
-dataset.has_appointments = appointments.where(
-    appointments.status.is_in(
-        [
-            "Arrived",
-            "In Progress",
-            "Finished",
-            "Visit",
-            "Waiting",
-            "Patient Walked Out",
-        ]
-    )
+dataset.has_appt_arrived = appointments.where(
+    appointments.status.is_in(["Arrived"])
 ).exists_for_patient()
 
-dataset.count_appointments = appointments.where(
-    appointments.status.is_in(
-        [
-            "Arrived",
-            "In Progress",
-            "Finished",
-            "Visit",
-            "Waiting",
-            "Patient Walked Out",
-        ]
-    )
+dataset.has_appt_finished = appointments.where(
+    appointments.status.is_in(["Finished"])
+).exists_for_patient()
+
+dataset.has_appt_inprogress = appointments.where(
+    appointments.status.is_in(["In Progress"])
+).exists_for_patient()
+
+dataset.has_appt_waiting = appointments.where(
+    appointments.status.is_in(["Waiting"])
+).exists_for_patient()
+
+dataset.has_appt_walkedout = appointments.where(
+    appointments.status.is_in(["Patient Walked Out"])
+).exists_for_patient()
+
+dataset.count_appt_arrived = appointments.where(
+    appointments.status.is_in(["Arrived"])
+).count_for_patient()
+
+dataset.count_appt_finished = appointments.where(
+    appointments.status.is_in(["Finished"])
+).count_for_patient()
+
+dataset.count_appt_inprogress = appointments.where(
+    appointments.status.is_in(["In Progress"])
+).count_for_patient()
+
+dataset.count_appt_waiting = appointments.where(
+    appointments.status.is_in(["Waiting"])
+).count_for_patient()
+
+dataset.count_appt_walkedout = appointments.where(
+    appointments.status.is_in(["Patient Walked Out"])
 ).count_for_patient()
 
 dataset.last_virtual_consultation_code = (
