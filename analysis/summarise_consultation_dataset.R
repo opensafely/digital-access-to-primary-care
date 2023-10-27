@@ -23,25 +23,32 @@ consultation_datasets <- consultation_dataset_paths %>%
   dplyr::mutate(file_name = stringr::str_extract(file_name, regex_get_dates)) %>%
   tidyr::separate(file_name, c("start_date", "end_date"), sep = "_to_")
 
-# Count sum and has (yes/no) of consultations grouped by age group
-# We could add more variables to group by here, e.g., ethnicity or sex
+
+#Count sum and has (yes/no) of consultations grouped by age group
+#We could add more variables to group by here, e.g., ethnicity or sex
 df_summary <- consultation_datasets %>%
   dplyr::group_by(start_date, end_date, age_greater_equal_65) %>%
   dplyr::summarise(
-    n_sum_f2f = sum(count_f2f_consultation, na.rm = TRUE),
-    n_sum_virtual = sum(count_virtual_consultation, na.rm = TRUE),
-    n_sum_appointment = sum(count_appointments, na.rm = TRUE),
-    n_has_f2f = sum(has_f2f_consultation, na.rm = TRUE),
+    n_count_appt_arrived = sum(count_appt_arrived, na.rm = TRUE),
+    n_count_appt_finished = sum(count_appt_finished, na.rm = TRUE),
+    n_count_appt_inprogress = sum(count_appt_inprogress, na.rm = TRUE),
+    n_count_appt_waiting = sum(count_appt_waiting, na.rm = TRUE),
+    n_count_appt_walkedout = sum(count_appt_walkedout, na.rm = TRUE),
+    n_count_virtual = sum(count_virtual_consultation, na.rm = TRUE),
+    n_has_appt_arrived = sum(has_appt_arrived, na.rm = TRUE),
+    n_has_appt_finished = sum(has_appt_finished, na.rm = TRUE),
+    n_has_appt_inprogress = sum(has_appt_inprogress, na.rm = TRUE),
+    n_has_appt_waiting = sum(has_appt_waiting, na.rm = TRUE),
+    n_has_appt_walkedout = sum(has_appt_walkedout, na.rm = TRUE),
     n_has_virtual = sum(has_virtual_consultation, na.rm = TRUE),
-    n_has_appointment = sum(has_appointments, na.rm = TRUE),
-  ) %>%
+    ) %>%
   pivot_longer(
     cols = c(
-      n_sum_f2f, n_sum_virtual, n_sum_appointment,
-      n_has_f2f, n_has_virtual, n_has_appointment
+      n_count_appt_arrived, n_count_appt_finished, n_count_appt_inprogress, n_count_appt_waiting, n_count_appt_walkedout, n_count_virtual,
+      n_has_appt_arrived, n_has_appt_finished, n_has_appt_inprogress, n_has_appt_waiting, n_has_appt_walkedout, n_has_virtual
     ),
     names_to = c("summary_type", "consultation_type"),
-    values_to = "value", names_sep = "_(?=f2f|virtual|appointment)"
+    values_to = "value", names_sep = "_(?=arrived|finished|inprogress|waiting|walkedout|virtual )"
   )
 
 # Apply disclosure controls

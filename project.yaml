@@ -45,11 +45,11 @@ actions:
       moderately_sensitive:
         measure_csv: output/data/summary_consultation_codes.csv
 
-  visualise_consultation_datasets:
-    run: >
-      r:latest analysis/visualise_consultation_dataset.R
-    needs: [summarise_consultation_datasets]
-    outputs:
-      moderately_sensitive:
-        figure_n_has: output/figures/figure_n_has_consultation_by_age.png
-        figure_n_sum: output/figures/figure_n_sum_consultation_by_age.png
+  # visualise_consultation_datasets:
+  #   run: >
+  #     r:latest analysis/visualise_consultation_dataset.R
+  #   needs: [summarise_consultation_datasets]
+  #   outputs:
+  #     moderately_sensitive:
+  #       figure_n_has: output/figures/figure_n_has_consultation_by_age.png
+  #       figure_n_sum: output/figures/figure_n_sum_consultation_by_age.png
