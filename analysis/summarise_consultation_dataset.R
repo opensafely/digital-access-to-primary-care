@@ -29,26 +29,17 @@ consultation_datasets <- consultation_dataset_paths %>%
 df_summary <- consultation_datasets %>%
   dplyr::group_by(start_date, end_date, age_greater_equal_65) %>%
   dplyr::summarise(
-    n_count_appt_arrived = sum(count_appt_arrived, na.rm = TRUE),
     n_count_appt_finished = sum(count_appt_finished, na.rm = TRUE),
-    n_count_appt_inprogress = sum(count_appt_inprogress, na.rm = TRUE),
-    n_count_appt_waiting = sum(count_appt_waiting, na.rm = TRUE),
-    n_count_appt_walkedout = sum(count_appt_walkedout, na.rm = TRUE),
     n_count_virtual = sum(count_virtual_consultation, na.rm = TRUE),
-    n_has_appt_arrived = sum(has_appt_arrived, na.rm = TRUE),
     n_has_appt_finished = sum(has_appt_finished, na.rm = TRUE),
-    n_has_appt_inprogress = sum(has_appt_inprogress, na.rm = TRUE),
-    n_has_appt_waiting = sum(has_appt_waiting, na.rm = TRUE),
-    n_has_appt_walkedout = sum(has_appt_walkedout, na.rm = TRUE),
     n_has_virtual = sum(has_virtual_consultation, na.rm = TRUE),
     ) %>%
   pivot_longer(
     cols = c(
-      n_count_appt_arrived, n_count_appt_finished, n_count_appt_inprogress, n_count_appt_waiting, n_count_appt_walkedout, n_count_virtual,
-      n_has_appt_arrived, n_has_appt_finished, n_has_appt_inprogress, n_has_appt_waiting, n_has_appt_walkedout, n_has_virtual
+      n_count_appt_finished, n_count_virtual,n_has_appt_finished, n_has_virtual
     ),
     names_to = c("summary_type", "consultation_type"),
-    values_to = "value", names_sep = "_(?=arrived|finished|inprogress|waiting|walkedout|virtual )"
+    values_to = "value", names_sep = "_(?=finished|virtual )"
   )
 
 # Apply disclosure controls
