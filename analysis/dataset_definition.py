@@ -42,25 +42,6 @@ dataset.age = patients.age_on(start_date)
 dataset.age_greater_equal_65 = dataset.age >= 65
 
 # Check if a patient has a clinical code in the time period defined
-# above (selected_events) that are in the f2f_consultation codelist
-dataset.has_f2f_consultation = selected_events.where(
-    clinical_events.snomedct_code.is_in(f2f_consultation)
-).exists_for_patient()
-
-# Count number of f2f_consultation that a patient had
-# in the time period defined above (selected_events)
-dataset.count_f2f_consultation = selected_events.where(
-    clinical_events.snomedct_code.is_in(f2f_consultation)
-).count_for_patient()
-
-dataset.last_f2f_consultation_code = (
-    selected_events.where(clinical_events.snomedct_code.is_in(f2f_consultation))
-    .sort_by(clinical_events.date)
-    .last_for_patient()
-    .snomedct_code
-)
-
-# Check if a patient has a clinical code in the time period defined
 # above (selected_events) that are in the virtual_consultation codelist
 dataset.has_virtual_consultation = selected_events.where(
     clinical_events.snomedct_code.is_in(virtual_consultation)
@@ -72,52 +53,23 @@ dataset.count_virtual_consultation = selected_events.where(
     clinical_events.snomedct_code.is_in(virtual_consultation)
 ).count_for_patient()
 
-dataset.has_appt_arrived = appointments.where(
-    appointments.status.is_in(["Arrived"])
-).exists_for_patient()
-
-dataset.has_appt_finished = appointments.where(
-    appointments.status.is_in(["Finished"])
-).exists_for_patient()
-
-dataset.has_appt_inprogress = appointments.where(
-    appointments.status.is_in(["In Progress"])
-).exists_for_patient()
-
-dataset.has_appt_waiting = appointments.where(
-    appointments.status.is_in(["Waiting"])
-).exists_for_patient()
-
-dataset.has_appt_walkedout = appointments.where(
-    appointments.status.is_in(["Patient Walked Out"])
-).exists_for_patient()
-
-dataset.count_appt_arrived = appointments.where(
-    appointments.status.is_in(["Arrived"])
-).count_for_patient()
-
-dataset.count_appt_finished = appointments.where(
-    appointments.status.is_in(["Finished"])
-).count_for_patient()
-
-dataset.count_appt_inprogress = appointments.where(
-    appointments.status.is_in(["In Progress"])
-).count_for_patient()
-
-dataset.count_appt_waiting = appointments.where(
-    appointments.status.is_in(["Waiting"])
-).count_for_patient()
-
-dataset.count_appt_walkedout = appointments.where(
-    appointments.status.is_in(["Patient Walked Out"])
-).count_for_patient()
-
 dataset.last_virtual_consultation_code = (
     selected_events.where(clinical_events.snomedct_code.is_in(virtual_consultation))
     .sort_by(clinical_events.date)
     .last_for_patient()
     .snomedct_code
 )
+
+# Check if a patient has a clinical code for finished appointment in the time period defined
+dataset.has_appt_finished = appointments.where(
+    appointments.status.is_in(["Finished"])
+).exists_for_patient()
+
+# Count number of finished_appointments that a patient had
+# in the time period defined above (selected_events)
+dataset.count_appt_finished = appointments.where(
+    appointments.status.is_in(["Finished"])
+).count_for_patient()
 
 # Define population, currently I set the conditions that patients need to be
 # registered and above 18 to be included

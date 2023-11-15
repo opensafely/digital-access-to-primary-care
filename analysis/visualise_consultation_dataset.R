@@ -25,11 +25,7 @@ plot_n_sum_consultation_by_age <- df_summary %>%
     x = NULL,
     y = "Count of all consultations",
     fill = "Type of consultation"
-  ) +
-  facet_wrap(~ factor(age_greater_equal_65,
-    levels = c(FALSE, TRUE),
-    labels = c("Age > 18 and < 65", "Age >= 65")
-  ))
+  )
 
 ggsave(here("output", "figures", "figure_n_sum_consultation_by_age.png"))
 
@@ -48,10 +44,6 @@ plot_n_has_consultation_by_age <- df_summary %>%
     ) +
   scale_y_continuous(
     labels = scales::label_comma()
-    ) +
-  facet_wrap(~ factor(age_greater_equal_65,
-    levels = c(FALSE, TRUE),
-    labels = c("Age > 18 and < 65", "Age >= 65")
-  ))
+    )
 
 ggsave(here("output", "figures", "figure_n_has_consultation_by_age.png"))
