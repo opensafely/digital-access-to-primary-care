@@ -43,6 +43,23 @@ last_virtual_consultation_code = (
     .snomedct_code
 )
 
+# f2f (face to face) consultations identified through clinical codes
+has_f2f_consultation = selected_events.where(
+    clinical_events.snomedct_code.is_in(f2f_consultation)
+).exists_for_patient()
+
+# Count number of f2f that a patient had
+count_f2f_consultation = selected_events.where(
+    clinical_events.snomedct_code.is_in(virtual_consultation)
+).count_for_patient()
+
+last_f2f_consultation_code = (
+    selected_events.where(clinical_events.snomedct_code.is_in(f2f_consultation))
+    .sort_by(clinical_events.date)
+    .last_for_patient()
+    .snomedct_code
+)
+
 # Appointments identified through the appointments table
 # Get all appointments with a seen date
 appointments_with_seen_date = appointments.where(
@@ -118,6 +135,16 @@ denominator = (has_registration & (age > 18))
 measures.define_measure(
     name="virtual_consultations",
     numerator=has_virtual_consultation,
+    denominator=denominator,
+    group_by={
+        "age_greater_equal_65": age_greater_equal_65
+    },
+    intervals=months(6).starting_on("2020-04-01"),
+)
+
+measures.define_measure(
+    name="f2f_consultations",
+    numerator=has_f2f_consultation,
     denominator=denominator,
     group_by={
         "age_greater_equal_65": age_greater_equal_65

@@ -53,6 +53,23 @@ dataset.last_virtual_consultation_code = (
     .snomedct_code
 )
 
+# f2f (face to face) consultations identified through clinical codes
+dataset.has_f2f_consultation = selected_events.where(
+    clinical_events.snomedct_code.is_in(f2f_consultation)
+).exists_for_patient()
+
+# Count number of f2f that a patient had
+dataset.count_f2f_consultation = selected_events.where(
+    clinical_events.snomedct_code.is_in(virtual_consultation)
+).count_for_patient()
+
+dataset.last_f2f_consultation_code = (
+    selected_events.where(clinical_events.snomedct_code.is_in(f2f_consultation))
+    .sort_by(clinical_events.date)
+    .last_for_patient()
+    .snomedct_code
+)
+
 # Appointments identified through the appointments table
 # Get all appointments with a seen date
 appointments_with_seen_date = appointments.where(
