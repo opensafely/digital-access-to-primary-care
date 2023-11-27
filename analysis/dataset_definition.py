@@ -33,14 +33,6 @@ selected_events = clinical_events.where(
     clinical_events.date.is_on_or_between(start_date, end_date)
 )
 
-# Define variable that checks if a patients is registered at the start date
-has_registration = practice_registrations.for_patient_on(
-    start_date
-).exists_for_patient()
-
-dataset.age = patients.age_on(start_date)
-dataset.age_greater_equal_65 = dataset.age >= 65
-
 # Virtual consultations identified through clinical codes
 # Check if a patient has a clinical code in the time period defined
 # above (selected_events) that are in the virtual_consultation codelist
@@ -63,30 +55,38 @@ dataset.last_virtual_consultation_code = (
 
 # Appointments identified through the appointments table
 # Get all appointments with a seen date
-appointments_with_seen_date = (
-    appointments.where(appointments.seen_date <= end_date)
-    .where(
-        appointments.status.is_in(
-            [
-                "Arrived",
-                "In Progress",
-                "Finished",
-                "Visit",
-                "Waiting",
-                "Patient Walked Out",
-            ]
-        )
+appointments_with_seen_date = appointments.where(
+    appointments.seen_date <= end_date
+).where(
+    appointments.status.is_in(
+        [
+            "Arrived",
+            "In Progress",
+            "Finished",
+            "Visit",
+            "Waiting",
+            "Patient Walked Out",
+        ]
     )
 )
 
-# Count number of finished_appointments that a patient had
-# in the time period defined above (selected_events)
+# Count number of appointments with a seen date in the time period
 dataset.count_appointment = appointments_with_seen_date.count_for_patient()
+# Specify if a patient had (True/False) an appointment with a seen date
 dataset.has_appointment = appointments_with_seen_date.exists_for_patient()
 
-# Define population, currently I set the conditions that patients need to be
-# registered and above 18 to be included
-dataset.define_population(has_registration & (dataset.age > 18))
+# Demographic variables and other patient characteristics
+# Define variable that checks if a patients is registered at the start date
+has_registration = practice_registrations.for_patient_on(
+    start_date
+).exists_for_patient()
+
+dataset.age = patients.age_on(start_date)
+dataset.age_greater_equal_65 = dataset.age >= 65
+
+# Define patient sex and date of death
+dataset.sex = patients.sex
+dataset.dod = patients.date_of_death
 
 # Define patient address: MSOA, rural-urban and IMD rank, using latest data for each patient
 latest_address_per_patient = addresses.sort_by(addresses.start_date).last_for_patient()
@@ -99,10 +99,6 @@ dataset.imd_quintile = case(
     when(imd_rounded < int(32844 * 5 / 5)).then("5"),
     default="Missing",
 )
-
-# Define patient sex and date of death
-dataset.sex = patients.sex
-dataset.dod = patients.date_of_death
 
 # Define patient ethnicity
 latest_ethnicity_code = (
@@ -124,3 +120,6 @@ dataset.ethnicity = case(
     when(latest_ethnicity == "5").then("Chinese or Other Ethnic Groups"),
     default="missing",
 )
+
+# Define population to be registered and above 18 years old
+dataset.define_population(has_registration & (dataset.age > 18))
