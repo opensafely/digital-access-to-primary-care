@@ -41,6 +41,7 @@ has_registration = practice_registrations.for_patient_on(
 dataset.age = patients.age_on(start_date)
 dataset.age_greater_equal_65 = dataset.age >= 65
 
+# Virtual consultations identified through clinical codes
 # Check if a patient has a clinical code in the time period defined
 # above (selected_events) that are in the virtual_consultation codelist
 dataset.has_virtual_consultation = selected_events.where(
@@ -60,16 +61,28 @@ dataset.last_virtual_consultation_code = (
     .snomedct_code
 )
 
-# Check if a patient has a clinical code for finished appointment in the time period defined
-dataset.has_appt_finished = appointments.where(
-    appointments.status.is_in(["Finished"])
-).exists_for_patient()
+# Appointments identified through the appointments table
+# Get all appointments with a seen date
+appointments_with_seen_date = (
+    appointments.where(appointments.seen_date <= end_date)
+    .where(
+        appointments.status.is_in(
+            [
+                "Arrived",
+                "In Progress",
+                "Finished",
+                "Visit",
+                "Waiting",
+                "Patient Walked Out",
+            ]
+        )
+    )
+)
 
 # Count number of finished_appointments that a patient had
 # in the time period defined above (selected_events)
-dataset.count_appt_finished = appointments.where(
-    appointments.status.is_in(["Finished"])
-).count_for_patient()
+dataset.count_appointment = appointments_with_seen_date.count_for_patient()
+dataset.has_appointment = appointments_with_seen_date.exists_for_patient()
 
 # Define population, currently I set the conditions that patients need to be
 # registered and above 18 to be included
