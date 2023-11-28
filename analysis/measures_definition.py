@@ -64,18 +64,7 @@ last_f2f_consultation_code = (
 # Get all appointments with a seen date
 appointments_with_seen_date = appointments.where(
     appointments.seen_date <= INTERVAL.end_date,
-).where(
-    appointments.status.is_in(
-        [
-            "Arrived",
-            "In Progress",
-            "Finished",
-            "Visit",
-            "Waiting",
-            "Patient Walked Out",
-        ]
-    )
-)
+).where(appointments.status.is_in(["Finished"]))
 
 # Count number of appointments with a seen date in the time period
 count_appointment = appointments_with_seen_date.count_for_patient()
@@ -129,26 +118,14 @@ ethnicity = case(
 )
 
 # Define population to be registered and above 18 years old
-denominator = (has_registration & (age > 18))
+denominator = has_registration & (age > 18)
 
 # Define measure
 measures.define_measure(
     name="virtual_consultations",
     numerator=has_virtual_consultation,
     denominator=denominator,
-    group_by={
-        "age_greater_equal_65": age_greater_equal_65
-    },
-    intervals=months(6).starting_on("2020-04-01"),
-)
-
-measures.define_measure(
-    name="f2f_consultations",
-    numerator=has_f2f_consultation,
-    denominator=denominator,
-    group_by={
-        "age_greater_equal_65": age_greater_equal_65
-    },
+    group_by={"age_greater_equal_65": age_greater_equal_65},
     intervals=months(6).starting_on("2020-04-01"),
 )
 
@@ -156,8 +133,6 @@ measures.define_measure(
     name="appointments",
     numerator=has_appointment,
     denominator=denominator,
-    group_by={
-        "age_greater_equal_65": age_greater_equal_65
-    },
+    group_by={"age_greater_equal_65": age_greater_equal_65},
     intervals=months(6).starting_on("2020-04-01"),
 )
