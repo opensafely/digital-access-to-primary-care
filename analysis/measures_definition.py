@@ -1,4 +1,4 @@
-from ehrql import INTERVAL, create_measures, case, when, months
+from ehrql import INTERVAL, create_measures, case, when, months, weeks
 
 from ehrql.tables.beta.tpp import (
     clinical_events,
@@ -120,9 +120,25 @@ ethnicity = case(
 # Define population to be registered and above 18 years old
 denominator = has_registration & (age > 18)
 
-# Define measure
+# Define monthly measure
 measures.define_measure(
-    name="virtual_consultations",
+    name="virtual_consultations_pre_monthly",
+    numerator=has_virtual_consultation,
+    denominator=denominator,
+    group_by={"age_greater_equal_65": age_greater_equal_65},
+    intervals=months(6).starting_on("2019-04-01"),
+)
+
+measures.define_measure(
+    name="appointments_pre_monthly",
+    numerator=has_appointment,
+    denominator=denominator,
+    group_by={"age_greater_equal_65": age_greater_equal_65},
+    intervals=months(6).starting_on("2019-04-01"),
+)
+
+measures.define_measure(
+    name="virtual_consultations_during_monthly",
     numerator=has_virtual_consultation,
     denominator=denominator,
     group_by={"age_greater_equal_65": age_greater_equal_65},
@@ -130,9 +146,42 @@ measures.define_measure(
 )
 
 measures.define_measure(
-    name="appointments",
+    name="appointments_during_monthly",
     numerator=has_appointment,
     denominator=denominator,
     group_by={"age_greater_equal_65": age_greater_equal_65},
     intervals=months(6).starting_on("2020-04-01"),
 )
+
+# Define weekly measure
+# measures.define_measure(
+#     name="virtual_consultations_pre_weekly",
+#     numerator=has_virtual_consultation,
+#     denominator=denominator,
+#     group_by={"age_greater_equal_65": age_greater_equal_65},
+#     intervals=weeks(8).starting_on("2019-04-01"),
+# )
+
+# measures.define_measure(
+#     name="appointments_pre_weekly",
+#     numerator=has_appointment,
+#     denominator=denominator,
+#     group_by={"age_greater_equal_65": age_greater_equal_65},
+#     intervals=weeks(8).starting_on("2019-04-01"),
+# )
+
+# measures.define_measure(
+#     name="virtual_consultations_during_weekly",
+#     numerator=has_virtual_consultation,
+#     denominator=denominator,
+#     group_by={"age_greater_equal_65": age_greater_equal_65},
+#     intervals=weeks(8).starting_on("2020-04-01"),
+# )
+
+# measures.define_measure(
+#     name="appointments_during_weekly",
+#     numerator=has_appointment,
+#     denominator=denominator,
+#     group_by={"age_greater_equal_65": age_greater_equal_65},
+#     intervals=weeks(8).starting_on("2020-04-01"),
+# )
