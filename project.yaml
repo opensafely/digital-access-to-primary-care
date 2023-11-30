@@ -35,7 +35,7 @@ actions:
         generate-measures analysis/measures_definition.py
         --output output/measures/consultation_measures.csv
     outputs:
-      highly_sensitive:
+      moderately_sensitive:
         study_population: output/measures/consultation_measures.csv
 
   # summarise_consultation_datasets:
