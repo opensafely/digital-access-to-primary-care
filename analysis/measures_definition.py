@@ -117,71 +117,64 @@ ethnicity = case(
     default="missing",
 )
 
-# Define population to be registered and above 18 years old
-denominator = has_registration & (age > 18)
+# Define population denominator
+denominator = has_registration & (age > 18) & has_appointment
 
-# Define monthly measure
-measures.define_measure(
-    name="virtual_consultations_pre_monthly",
-    numerator=has_virtual_consultation,
-    denominator=denominator,
-    group_by={"age_greater_equal_65": age_greater_equal_65},
-    intervals=months(6).starting_on("2019-04-01"),
-)
+# # Define monthly measure
+# measures.define_measure(
+#     name="virtual_consultations_pre_monthly",
+#     numerator=has_virtual_consultation,
+#     denominator=denominator,
+#     group_by={"age_greater_equal_65": age_greater_equal_65},
+#     intervals=months(6).starting_on("2019-04-01"),
+# )
 
-measures.define_measure(
-    name="appointments_pre_monthly",
-    numerator=has_appointment,
-    denominator=denominator,
-    group_by={"age_greater_equal_65": age_greater_equal_65},
-    intervals=months(6).starting_on("2019-04-01"),
-)
+# measures.define_measure(
+#     name="appointments_pre_monthly",
+#     numerator=has_appointment,
+#     denominator=denominator,
+#     group_by={"age_greater_equal_65": age_greater_equal_65},
+#     intervals=months(6).starting_on("2019-04-01"),
+# )
 
-measures.define_measure(
-    name="virtual_consultations_during_monthly",
-    numerator=has_virtual_consultation,
-    denominator=denominator,
-    group_by={"age_greater_equal_65": age_greater_equal_65},
-    intervals=months(6).starting_on("2020-04-01"),
-)
+# measures.define_measure(
+#     name="virtual_consultations_during_monthly",
+#     numerator=has_virtual_consultation,
+#     denominator=denominator,
+#     group_by={"age_greater_equal_65": age_greater_equal_65},
+#     intervals=months(6).starting_on("2020-04-01"),
+# )
 
-measures.define_measure(
-    name="appointments_during_monthly",
-    numerator=has_appointment,
-    denominator=denominator,
-    group_by={"age_greater_equal_65": age_greater_equal_65},
-    intervals=months(6).starting_on("2020-04-01"),
-)
+# measures.define_measure(
+#     name="appointments_during_monthly",
+#     numerator=has_appointment,
+#     denominator=denominator,
+#     group_by={"age_greater_equal_65": age_greater_equal_65},
+#     intervals=months(6).starting_on("2020-04-01"),
+# )
 
 # Define weekly measure
-# measures.define_measure(
-#     name="virtual_consultations_pre_weekly",
-#     numerator=has_virtual_consultation,
-#     denominator=denominator,
-#     group_by={"age_greater_equal_65": age_greater_equal_65},
-#     intervals=weeks(8).starting_on("2019-04-01"),
-# )
+measures.define_measure(
+    name="virtual_consultations_pre_weekly",
+    numerator=has_virtual_consultation,
+    denominator=denominator,
+    group_by={"age_greater_equal_65": age_greater_equal_65},
+    intervals=weeks(10).starting_on("2019-04-01"),
+)
 
-# measures.define_measure(
-#     name="appointments_pre_weekly",
-#     numerator=has_appointment,
-#     denominator=denominator,
-#     group_by={"age_greater_equal_65": age_greater_equal_65},
-#     intervals=weeks(8).starting_on("2019-04-01"),
-# )
+measures.define_measure(
+    name="virtual_consultations_during_weekly_2020",
+    numerator=has_appointment,
+    denominator=denominator,
+    group_by={"age_greater_equal_65": age_greater_equal_65},
+    intervals=weeks(10).starting_on("2020-04-01"),
+)
 
-# measures.define_measure(
-#     name="virtual_consultations_during_weekly",
-#     numerator=has_virtual_consultation,
-#     denominator=denominator,
-#     group_by={"age_greater_equal_65": age_greater_equal_65},
-#     intervals=weeks(8).starting_on("2020-04-01"),
-# )
+measures.define_measure(
+    name="virtual_consultations_during_weekly_2021",
+    numerator=has_virtual_consultation,
+    denominator=denominator,
+    group_by={"age_greater_equal_65": age_greater_equal_65},
+    intervals=weeks(10).starting_on("2021-04-01"),
+)
 
-# measures.define_measure(
-#     name="appointments_during_weekly",
-#     numerator=has_appointment,
-#     denominator=denominator,
-#     group_by={"age_greater_equal_65": age_greater_equal_65},
-#     intervals=weeks(8).starting_on("2020-04-01"),
-# )

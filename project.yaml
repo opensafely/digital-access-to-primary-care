@@ -29,6 +29,18 @@ actions:
       highly_sensitive:
         study_population: output/consultation_dataset_2020-04-01_to_2021-03-31.arrow
 
+  generate_consultation_dataset_2021-04-01_to_2022-03-31:
+    run: >
+      ehrql:v0
+        generate-dataset analysis/dataset_definition.py
+        --output output/consultation_dataset_2021-04-01_to_2022-03-31.arrow
+        --
+        --start-date "2021-04-01"
+        --end-date "2022-03-31"
+    outputs:
+      highly_sensitive:
+        study_population: output/consultation_dataset_2021-04-01_to_2022-03-31.arrow
+
   generate_consultation_measures:
     run: >
       ehrql:v0
