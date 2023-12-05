@@ -14,7 +14,7 @@ actions:
         --start-date "2019-04-01"
         --end-date "2020-03-31"
     outputs:
-      highlyly_sensitive:
+      highly_sensitive:
         study_population: output/consultation_dataset_2019-04-01_to_2020-03-31.arrow
 
   generate_consultation_dataset_2020-04-01_to_2021-03-31:
