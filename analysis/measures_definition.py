@@ -73,15 +73,12 @@ has_appointment = appointments_with_seen_date.exists_for_patient()
 
 # Demographic variables and other patient characteristics
 # Define variable that checks if a patients is registered at the start date
-registration = practice_registrations.for_patient_on(
+has_registration = practice_registrations.for_patient_on(
     INTERVAL.start_date
 ).exists_for_patient()
 
 age = patients.age_on(INTERVAL.start_date)
 age_greater_equal_65 = age >= 65
-
-# Define population to be registered and above 18 years old
-has_registration = registration & (age > 18)
 
 # Define patient sex and date of death
 sex = patients.sex
@@ -121,7 +118,7 @@ ethnicity = case(
 )
 
 # Define population denominator
-denominator = has_appointment
+denominator = has_registration & (age > 18) & has_appointment
 
 # # Define monthly measure
 # measures.define_measure(
