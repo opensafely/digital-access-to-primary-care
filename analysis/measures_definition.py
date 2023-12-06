@@ -164,7 +164,7 @@ measures.define_measure(
 
 measures.define_measure(
     name="virtual_consultations_during_weekly_2020",
-    numerator=has_appointment,
+    numerator=has_virtual_consultation,
     denominator=denominator,
     group_by={"age_greater_equal_65": age_greater_equal_65},
     intervals=weeks(10).starting_on("2020-04-01"),
