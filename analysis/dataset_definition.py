@@ -76,14 +76,7 @@ appointments_with_seen_date = appointments.where(
     appointments.seen_date <= end_date
 ).where(
     appointments.status.is_in(
-        [
-            "Arrived",
-            "In Progress",
-            "Finished",
-            "Visit",
-            "Waiting",
-            "Patient Walked Out",
-        ]
+        ["Finished"]
     )
 )
 
