@@ -50,6 +50,15 @@ actions:
       moderately_sensitive:
         study_population: output/measures/consultation_measures_age.csv
 
+  generate_consultation_measures_imd_quintile:
+    run: >
+      ehrql:v0
+        generate-measures analysis/measures_definition_imd_quintile.py
+        --output output/measures/consultation_measures_imd_quintile.csv
+    outputs:
+      moderately_sensitive:
+        study_population: output/measures/consultation_measures_imd_quintile.csv
+
   # summarise_consultation_datasets:
   #   run: >
   #     r:latest analysis/summarise_consultation_dataset.R
