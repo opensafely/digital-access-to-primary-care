@@ -59,6 +59,15 @@ actions:
       moderately_sensitive:
         study_population: output/measures/consultation_measures_imd_quintile.csv
 
+  generate_consultation_measures_ethnicity:
+    run: >
+      ehrql:v0
+        generate-measures analysis/measures_definition_ethnicity.py
+        --output output/measures/consultation_measures_ethnicity.csv
+    outputs:
+      moderately_sensitive:
+        study_population: output/measures/consultation_measures_ethnicity.csv
+
   # summarise_consultation_datasets:
   #   run: >
   #     r:latest analysis/summarise_consultation_dataset.R
