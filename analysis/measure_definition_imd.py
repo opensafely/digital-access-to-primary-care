@@ -120,6 +120,8 @@ ethnicity = case(
 # Define population denominator
 denominator = has_registration & (age > 18) & has_appointment
 
+
+
 # Define weekly measure
 measures.define_measure(
     name="virtual_consultations_pre_weekly",
