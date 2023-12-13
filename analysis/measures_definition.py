@@ -1,6 +1,6 @@
 from ehrql import INTERVAL, create_measures, case, when, months, weeks
 
-from ehrql.tables.beta.tpp import (
+from ehrql.tables.tpp import (
     clinical_events,
     patients,
     practice_registrations,
@@ -93,7 +93,7 @@ imd_quintile = case(
     when(imd_rounded < int(32844 * 3 / 5)).then("3"),
     when(imd_rounded < int(32844 * 4 / 5)).then("4"),
     when(imd_rounded < int(32844 * 5 / 5)).then("5"),
-    default="Missing",
+    otherwise="Missing",
 )
 
 # Define patient ethnicity
@@ -114,7 +114,7 @@ ethnicity = case(
     when(latest_ethnicity == "3").then("Asian or Asian British"),
     when(latest_ethnicity == "4").then("Black or Black British"),
     when(latest_ethnicity == "5").then("Chinese or Other Ethnic Groups"),
-    default="missing",
+    otherwise="missing",
 )
 
 # Define population denominator

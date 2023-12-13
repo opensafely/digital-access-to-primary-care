@@ -2,7 +2,7 @@ from argparse import ArgumentParser
 import datetime
 from ehrql import create_dataset, case, when
 
-from ehrql.tables.beta.tpp import (
+from ehrql.tables.tpp import (
     clinical_events,
     patients,
     practice_registrations,
@@ -107,7 +107,7 @@ dataset.imd_quintile = case(
     when(imd_rounded < int(32844 * 3 / 5)).then("3"),
     when(imd_rounded < int(32844 * 4 / 5)).then("4"),
     when(imd_rounded < int(32844 * 5 / 5)).then("5"),
-    default="Missing",
+    otherwise="Missing",
 )
 
 # Define patient ethnicity
@@ -128,7 +128,7 @@ dataset.ethnicity = case(
     when(latest_ethnicity == "3").then("Asian or Asian British"),
     when(latest_ethnicity == "4").then("Black or Black British"),
     when(latest_ethnicity == "5").then("Chinese or Other Ethnic Groups"),
-    default="missing",
+    otherwise="missing",
 )
 
 # Define population to be registered and above 18 years old
