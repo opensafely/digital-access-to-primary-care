@@ -61,15 +61,13 @@ last_f2f_consultation_code = (
 )
 
 # Appointments identified through the appointments table
-# Get all appointments with a seen date
-appointments_with_seen_date = appointments.where(
-    appointments.seen_date <= INTERVAL.end_date,
-).where(appointments.status.is_in(["Finished"]))
+# Get all appointments with status "Finished"
+appointments_finished = appointments.where(appointments.status.is_in(["Finished"]))
 
-# Count number of appointments with a seen date in the time period
-count_appointment = appointments_with_seen_date.count_for_patient()
-# Specify if a patient had (True/False) an appointment with a seen date
-has_appointment = appointments_with_seen_date.exists_for_patient()
+# Count number of finished appointments in the time period
+count_appointment = appointments_finished.count_for_patient()
+# Specify if a patient had (True/False) a finished appointments in the time period
+has_appointment = appointments_finished.exists_for_patient()
 
 # Demographic variables and other patient characteristics
 # Define variable that checks if a patients is registered at the start date
@@ -177,4 +175,3 @@ measures.define_measure(
     group_by={"age_greater_equal_65": age_greater_equal_65},
     intervals=weeks(10).starting_on("2021-04-01"),
 )
-
