@@ -72,18 +72,16 @@ dataset.last_f2f_consultation_code = (
 
 # Appointments identified through the appointments table
 # Get all appointments with a seen date
-appointments_with_seen_date = appointments.where(
-    appointments.seen_date <= end_date
-).where(
+appointments = appointments.where(
     appointments.status.is_in(
         ["Finished"]
     )
 )
 
 # Count number of appointments with a seen date in the time period
-dataset.count_appointment = appointments_with_seen_date.count_for_patient()
+dataset.count_appointment = appointments.count_for_patient()
 # Specify if a patient had (True/False) an appointment with a seen date
-dataset.has_appointment = appointments_with_seen_date.exists_for_patient()
+dataset.has_appointment = appointments.exists_for_patient()
 
 # Demographic variables and other patient characteristics
 # Define variable that checks if a patients is registered at the start date
