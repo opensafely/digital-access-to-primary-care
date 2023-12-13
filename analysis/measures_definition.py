@@ -135,6 +135,16 @@ for time_description, start_date in measures_start_dates.items():
         denominator=denominator,
         group_by={
             "age_greater_equal_65": age_greater_equal_65,
+        },
+        intervals=weeks(10).starting_on(start_date),
+    )
+
+    measures.define_measure(
+        name=f"virtual_{time_description}_weekly_age_sex",
+        numerator=has_virtual_consultation,
+        denominator=denominator,
+        group_by={
+            "age_greater_equal_65": age_greater_equal_65,
             "sex": sex,
         },
         intervals=weeks(10).starting_on(start_date),
