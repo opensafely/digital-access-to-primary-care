@@ -130,7 +130,7 @@ measures_start_dates = {
 for time_description, start_date in measures_start_dates.items():
 
     measures.define_measure(
-        name=f"virtual_{time_description}_weekly_age_sex",
+        name=f"virtual_{time_description}_weekly_age",
         numerator=has_virtual_consultation,
         denominator=denominator,
         group_by={
