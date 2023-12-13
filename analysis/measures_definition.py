@@ -118,60 +118,46 @@ ethnicity = case(
 # Define population denominator
 denominator = has_registration & (age > 18) & has_appointment
 
-# # Define monthly measure
-# measures.define_measure(
-#     name="virtual_consultations_pre_monthly",
-#     numerator=has_virtual_consultation,
-#     denominator=denominator,
-#     group_by={"age_greater_equal_65": age_greater_equal_65},
-#     intervals=months(6).starting_on("2019-04-01"),
-# )
+# Specify description and start dates for measures
+measures_start_dates = {
+    "pre2019": "2019-04-01",
+    "during2020": "2020-04-01",
+    "during2021": "2021-04-01",
+}
 
-# measures.define_measure(
-#     name="appointments_pre_monthly",
-#     numerator=has_appointment,
-#     denominator=denominator,
-#     group_by={"age_greater_equal_65": age_greater_equal_65},
-#     intervals=months(6).starting_on("2019-04-01"),
-# )
+# Iterate through the start dates in measures_start_dates and
+# calculate measures for each age sex/ethnicity/imd pair
+for time_description, start_date in measures_start_dates.items():
 
-# measures.define_measure(
-#     name="virtual_consultations_during_monthly",
-#     numerator=has_virtual_consultation,
-#     denominator=denominator,
-#     group_by={"age_greater_equal_65": age_greater_equal_65},
-#     intervals=months(6).starting_on("2020-04-01"),
-# )
+    measures.define_measure(
+        name=f"virtual_{time_description}_weekly_age_sex",
+        numerator=has_virtual_consultation,
+        denominator=denominator,
+        group_by={
+            "age_greater_equal_65": age_greater_equal_65,
+            "sex": sex,
+        },
+        intervals=weeks(10).starting_on(start_date),
+    )
 
-# measures.define_measure(
-#     name="appointments_during_monthly",
-#     numerator=has_appointment,
-#     denominator=denominator,
-#     group_by={"age_greater_equal_65": age_greater_equal_65},
-#     intervals=months(6).starting_on("2020-04-01"),
-# )
+    measures.define_measure(
+        name=f"virtual_{time_description}_weekly_age_ethnicity",
+        numerator=has_virtual_consultation,
+        denominator=denominator,
+        group_by={
+            "age_greater_equal_65": age_greater_equal_65,
+            "ethnicity": ethnicity,
+        },
+        intervals=weeks(10).starting_on(start_date),
+    )
 
-# Define weekly measure
-measures.define_measure(
-    name="virtual_consultations_pre_weekly",
-    numerator=has_virtual_consultation,
-    denominator=denominator,
-    group_by={"age_greater_equal_65": age_greater_equal_65},
-    intervals=weeks(10).starting_on("2019-04-01"),
-)
-
-measures.define_measure(
-    name="virtual_consultations_during_weekly_2020",
-    numerator=has_virtual_consultation,
-    denominator=denominator,
-    group_by={"age_greater_equal_65": age_greater_equal_65},
-    intervals=weeks(10).starting_on("2020-04-01"),
-)
-
-measures.define_measure(
-    name="virtual_consultations_during_weekly_2021",
-    numerator=has_virtual_consultation,
-    denominator=denominator,
-    group_by={"age_greater_equal_65": age_greater_equal_65},
-    intervals=weeks(10).starting_on("2021-04-01"),
-)
+    measures.define_measure(
+        name=f"virtual_{time_description}_weekly_age_imd",
+        numerator=has_virtual_consultation,
+        denominator=denominator,
+        group_by={
+            "age_greater_equal_65": age_greater_equal_65,
+            "imd_quintile": imd_quintile,
+        },
+        intervals=weeks(10).starting_on(start_date),
+    )
