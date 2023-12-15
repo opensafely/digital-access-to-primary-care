@@ -17,7 +17,7 @@ df_summary <- read_csv(here("output", "measures", "consultation_measures.csv"),
 
 # Create figure with consultation measure pre2019 (this plots the ratio of virtual consultation using appointments as denominator)
 plot_consultation_measure_age <- df_summary %>%
-  filter(summary_type == "virtual_pre2019_weekly_age") %>%
+  filter(measure == "virtual_pre2019_weekly_age") %>%
   ggplot(aes(x = "interval_start", y = "ratio")) +
   geom_line() +
   labs(
@@ -28,7 +28,7 @@ plot_consultation_measure_age <- df_summary %>%
 
 # Create figure with consultation measure during2020 (this plots the ratio of virtual consultation using appointments as denominator)
 plot_consultation_measure_age <- df_summary %>%
-  filter(summary_type == "virtual_during2020_weekly_age") %>%
+  filter(measure == "virtual_during2020_weekly_age") %>%
   ggplot(aes(x = "interval_start", y = "ratio")) +
   geom_line() +
   labs(
