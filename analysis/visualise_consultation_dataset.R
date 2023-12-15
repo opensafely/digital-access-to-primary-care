@@ -79,3 +79,5 @@ plot_consultation_measure_age <- df_summary %>%
 #     )
 
 ggsave(here("output", "figures", "figure_pre2019_consultation_measure_by_age.png"))
+ggsave(here("output", "figures", "figure_during2020_consultation_measure_by_age.png"))
+ggsave(here("output", "figures", "figure_during2021_consultation_measure_by_age.png"))
