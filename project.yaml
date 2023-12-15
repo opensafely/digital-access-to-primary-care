@@ -53,7 +53,7 @@ actions:
   summarise_consultation_datasets:
      run: >
        r:latest analysis/summarise_consultation_dataset.R
-     needs: [generate_consultation_dataset_2019-04-01_to_2020-03-31, generate_consultation_dataset_2020-04-01_to_2021-03-31t, generate_consultation_dataset_2021-04-01_to_2022-03-31]
+     needs: [generate_consultation_dataset_2019-04-01_to_2020-03-31, generate_consultation_dataset_2020-04-01_to_2021-03-31, generate_consultation_dataset_2021-04-01_to_2022-03-31]
      outputs:
        moderately_sensitive:
          measure_csv: output/data/summary_consultation_dataset.csv
