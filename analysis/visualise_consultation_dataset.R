@@ -39,7 +39,7 @@ plot_consultation_measure_age <- df_summary %>%
 
 # Create figure with consultation measure during2021 (this plots the ratio of virtual consultation using appointments as denominator)
 plot_consultation_measure_age <- df_summary %>%
-  filter(summary_type == "virtual_during2021_weekly_age") %>%
+  filter(measure == "virtual_during2021_weekly_age") %>%
   ggplot(aes(x = "interval_start", y = "ratio")) +
   geom_line() +
   labs(
