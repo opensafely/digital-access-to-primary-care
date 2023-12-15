@@ -50,13 +50,13 @@ actions:
       moderately_sensitive:
         study_population: output/measures/consultation_measures.csv
 
-  # summarise_consultation_datasets:
-  #   run: >
-  #     r:latest analysis/summarise_consultation_dataset.R
-  #   needs: [generate_consultation_dataset_2019-04-01_to_2020-03-31, generate_consultation_dataset_2020-04-01_to_2021-03-31]
-  #   outputs:
-  #     moderately_sensitive:
-  #       measure_csv: output/data/summary_consultation_dataset.csv
+  summarise_consultation_datasets:
+     run: >
+       r:latest analysis/summarise_consultation_dataset.R
+     needs: [generate_consultation_dataset_2019-04-01_to_2020-03-31, generate_consultation_dataset_2020-04-01_to_2021-03-31t, generate_consultation_dataset_2021-04-01_to_2022-03-31]
+     outputs:
+       moderately_sensitive:
+         measure_csv: output/data/summary_consultation_dataset.csv
 
   # summarise_consultation_codes:
   #   run: >
@@ -66,11 +66,12 @@ actions:
   #     moderately_sensitive:
   #       measure_csv: output/data/summary_consultation_codes.csv
 
-  # visualise_consultation_datasets:
-  #   run: >
-  #     r:latest analysis/visualise_consultation_dataset.R
-  #   needs: [summarise_consultation_datasets]
-  #   outputs:
-  #     moderately_sensitive:
-  #       figure_n_has: output/figures/figure_n_has_consultation_by_age.png
-  #       figure_n_sum: output/figures/figure_n_sum_consultation_by_age.png
+  visualise_consultation_datasets:
+     run: >
+       r:latest analysis/visualise_consultation_dataset.R
+    needs: [consultation_measures.csv]
+     outputs:
+       moderately_sensitive:
+         figure_pre2019: output/figures/figure_pre2019_consultation_measure_by_age.png
+         figure_during2020: output/figures/figure_during2020_consultation_measure_by_age.png
+          figure_during2021: output/figures/figure_during2020_consultation_measure_by_age.png
