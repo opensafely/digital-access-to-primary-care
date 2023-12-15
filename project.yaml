@@ -69,7 +69,7 @@ actions:
   visualise_consultation_datasets:
      run: >
        r:latest analysis/visualise_consultation_dataset.R
-    needs: [generate_consultation_measures]
+     needs: [generate_consultation_measures]
      outputs:
        moderately_sensitive:
          figure_pre2019: output/figures/figure_pre2019_consultation_measure_by_age.png
