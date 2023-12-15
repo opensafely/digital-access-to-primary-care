@@ -74,4 +74,4 @@ actions:
        moderately_sensitive:
          figure_pre2019: output/figures/figure_pre2019_consultation_measure_by_age.png
          figure_during2020: output/figures/figure_during2020_consultation_measure_by_age.png
-         figure_during2021: output/figures/figure_during2020_consultation_measure_by_age.png
+         figure_during2021: output/figures/figure_during2021_consultation_measure_by_age.png
