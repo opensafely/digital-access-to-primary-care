@@ -136,7 +136,7 @@ for time_description, start_date in measures_start_dates.items():
         group_by={
             "age_greater_equal_65": age_greater_equal_65,
         },
-        intervals=weeks(10).starting_on(start_date),
+        intervals=weeks(52).starting_on(start_date),
     )
 
     measures.define_measure(
@@ -147,7 +147,7 @@ for time_description, start_date in measures_start_dates.items():
             "age_greater_equal_65": age_greater_equal_65,
             "sex": sex,
         },
-        intervals=weeks(10).starting_on(start_date),
+        intervals=weeks(52).starting_on(start_date),
     )
 
     measures.define_measure(
@@ -158,7 +158,7 @@ for time_description, start_date in measures_start_dates.items():
             "age_greater_equal_65": age_greater_equal_65,
             "ethnicity": ethnicity,
         },
-        intervals=weeks(10).starting_on(start_date),
+        intervals=weeks(52).starting_on(start_date),
     )
 
     measures.define_measure(
@@ -169,5 +169,5 @@ for time_description, start_date in measures_start_dates.items():
             "age_greater_equal_65": age_greater_equal_65,
             "imd_quintile": imd_quintile,
         },
-        intervals=weeks(10).starting_on(start_date),
+        intervals=weeks(52).starting_on(start_date),
     )
