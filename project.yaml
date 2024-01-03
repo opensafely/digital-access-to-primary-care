@@ -75,3 +75,11 @@ actions:
          figure_pre2019: output/figures/figure_pre2019_consultation_measure_by_age.png
          figure_during2020: output/figures/figure_during2020_consultation_measure_by_age.png
          figure_during2021: output/figures/figure_during2021_consultation_measure_by_age.png
+
+  binary_regression_01:
+     run: >
+       r:latest analysis/binary_regression.R
+     needs: [generate_consultation_dataset_2019-04-01_to_2020-03-31, generate_consultation_dataset_2020-04-01_to_2021-03-31, generate_consultation_dataset_2021-04-01_to_2022-03-31]
+     outputs:
+       moderately_sensitive:
+         measure_txt: output/data/binary_regression_output.txt     
