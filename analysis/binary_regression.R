@@ -43,5 +43,5 @@ consultation_datasets_filtered <- consultation_datasets %>% filter(start_date ==
 summary_text <- capture.output(summary(glm(has_virtual_consultation ~ age_greater_equal_65 + sex + imd_quintile + ethnicity, data = consultation_datasets_filtered, family = "binomial")))
 
 # Write data
-dir_create(here("output", "data"))
+fs::dir_create(here::here("output", "data"))
 write_lines(summary_text, here("output", "data", "binary_regression.txt"))
