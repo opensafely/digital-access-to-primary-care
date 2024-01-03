@@ -82,4 +82,4 @@ actions:
      needs: [generate_consultation_dataset_2019-04-01_to_2020-03-31, generate_consultation_dataset_2020-04-01_to_2021-03-31, generate_consultation_dataset_2021-04-01_to_2022-03-31]
      outputs:
        moderately_sensitive:
-         measure_txt: output/data/binary_regression_output.txt     
+         measure_txt: output/data/binary_regression.txt     

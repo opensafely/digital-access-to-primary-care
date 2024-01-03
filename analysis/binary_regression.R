@@ -28,16 +28,20 @@ consultation_datasets <- consultation_dataset_paths %>%
 consultation_datasets_filtered <- consultation_datasets %>% filter(start_date == "2019-04-01")
 
 # Run a generalised linear model with binary outcome using has_virtual_consultation as outcome
-summary(glm(has_virtual_consultation ~ age_greater_equal_65 + sex + imd_quintile + ethnicity, data = consultation_datasets_filtered, family = "binomial"))
+summary_text <- capture.output(summary(glm(has_virtual_consultation ~ age_greater_equal_65 + sex + imd_quintile + ethnicity, data = consultation_datasets_filtered, family = "binomial")))
 
 # filter by start date to separate the data to financials years 2020/21
 consultation_datasets_filtered <- consultation_datasets %>% filter(start_date == "2020-04-01")
 
 # Run a generalised linear model with binary outcome using has_virtual_consultation as outcome
-summary(glm(has_virtual_consultation ~ age_greater_equal_65 + sex + imd_quintile + ethnicity, data = consultation_datasets_filtered, family = "binomial"))#
+summary_text <- capture.output(summary(glm(has_virtual_consultation ~ age_greater_equal_65 + sex + imd_quintile + ethnicity, data = consultation_datasets_filtered, family = "binomial")))
 
 # filter by start date to separate the data to financials years 2021/22
 consultation_datasets_filtered <- consultation_datasets %>% filter(start_date == "2021-04-01")
 
 # Run a generalised linear model with binary outcome using has_virtual_consultation as outcome
-summary(glm(has_virtual_consultation ~ age_greater_equal_65 + sex + imd_quintile + ethnicity, data = consultation_datasets_filtered, family = "binomial"))
+summary_text <- capture.output(summary(glm(has_virtual_consultation ~ age_greater_equal_65 + sex + imd_quintile + ethnicity, data = consultation_datasets_filtered, family = "binomial")))
+
+# Write data
+dir_create(here("output", "data"))
+write_lines(summary_text, here("output", "data", "binary_regression.txt"))
