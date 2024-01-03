@@ -64,9 +64,9 @@ actions:
      needs: [generate_consultation_dataset_2019-04-01_to_2020-03-31, generate_consultation_dataset_2020-04-01_to_2021-03-31, generate_consultation_dataset_2021-04-01_to_2022-03-31]
      outputs:
        moderately_sensitive:
-         measure_txt: output/data/binary_regression_2019-20.txt
-         measure_txt: output/data/binary_regression_2020-21.txt    
-         measure_txt: output/data/binary_regression_2021-22.txt          
+         measure_txt1: output/data/binary_regression_2019-20.txt
+         measure_txt2: output/data/binary_regression_2020-21.txt    
+         measure_txt3: output/data/binary_regression_2021-22.txt          
 
   # summarise_consultation_codes:
   #   run: >
