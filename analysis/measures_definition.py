@@ -16,6 +16,7 @@ from codelists import (
 
 # Instantiate dataset
 measures = create_measures()
+measures.configure_dummy_data(population_size=5000)
 
 # Extract clinical events that fall between our start and end date
 # for further use in variable definitions below

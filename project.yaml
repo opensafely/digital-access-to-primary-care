@@ -1,7 +1,7 @@
 version: '3.0'
 
 expectations:
-  population_size: 1000
+  population_size: 5000
 
 actions:
 
@@ -9,6 +9,7 @@ actions:
     run: >
       ehrql:v1
         generate-dataset analysis/dataset_definition.py
+        --dummy-tables dummy_tables
         --output output/consultation_dataset_2019-04-01_to_2020-03-31.arrow
         --
         --start-date "2019-04-01"
@@ -21,6 +22,7 @@ actions:
     run: >
       ehrql:v1
         generate-dataset analysis/dataset_definition.py
+        --dummy-tables dummy_tables
         --output output/consultation_dataset_2020-04-01_to_2021-03-31.arrow
         --
         --start-date "2020-04-01"
@@ -33,6 +35,7 @@ actions:
     run: >
       ehrql:v1
         generate-dataset analysis/dataset_definition.py
+        --dummy-tables dummy_tables
         --output output/consultation_dataset_2021-04-01_to_2022-03-31.arrow
         --
         --start-date "2021-04-01"
@@ -45,6 +48,7 @@ actions:
     run: >
       ehrql:v1
         generate-measures analysis/measures_definition.py
+        --dummy-tables dummy_tables
         --output output/measures/consultation_measures.csv
     outputs:
       moderately_sensitive:
