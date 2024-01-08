@@ -115,9 +115,6 @@ ethnicity = case(
     otherwise="missing",
 )
 
-# Define population denominator
-denominator = has_registration & (age > 18) & has_appointment
-
 # Specify description and start dates for measures
 measures_start_dates = {
     # "pre2019": "2019-03-01",
@@ -128,11 +125,10 @@ measures_start_dates = {
 # Iterate through the start dates in measures_start_dates and
 # calculate measures for each age sex/ethnicity/imd pair
 for time_description, start_date in measures_start_dates.items():
-
     measures.define_measure(
         name=f"virtual_{time_description}_weekly_age",
         numerator=has_virtual_consultation,
-        denominator=denominator,
+        denominator=has_registration & (age > 18),
         group_by={
             "age_greater_equal_65": age_greater_equal_65,
         },
@@ -142,7 +138,7 @@ for time_description, start_date in measures_start_dates.items():
     measures.define_measure(
         name=f"virtual_{time_description}_weekly_age_sex",
         numerator=has_virtual_consultation,
-        denominator=denominator,
+        denominator=has_registration & (age > 18),
         group_by={
             "age_greater_equal_65": age_greater_equal_65,
             "sex": sex,
@@ -153,7 +149,7 @@ for time_description, start_date in measures_start_dates.items():
     measures.define_measure(
         name=f"virtual_{time_description}_weekly_age_ethnicity",
         numerator=has_virtual_consultation,
-        denominator=denominator,
+        denominator=has_registration & (age > 18),
         group_by={
             "age_greater_equal_65": age_greater_equal_65,
             "ethnicity": ethnicity,
@@ -164,7 +160,7 @@ for time_description, start_date in measures_start_dates.items():
     measures.define_measure(
         name=f"virtual_{time_description}_weekly_age_imd",
         numerator=has_virtual_consultation,
-        denominator=denominator,
+        denominator=has_registration & (age > 18),
         group_by={
             "age_greater_equal_65": age_greater_equal_65,
             "imd_quintile": imd_quintile,
