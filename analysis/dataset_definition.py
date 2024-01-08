@@ -26,6 +26,7 @@ end_date = args.end_date
 
 # Instantiate dataset
 dataset = create_dataset()
+dataset.configure_dummy_data(population_size=5000)
 
 # Extract clinical events that fall between our start and end date
 # for further use in variable definitions below
