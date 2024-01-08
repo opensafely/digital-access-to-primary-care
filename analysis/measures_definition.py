@@ -157,6 +157,36 @@ for time_description, start_date in measures_start_dates.items():
         intervals=weeks(12).starting_on(start_date),
     )
 
+    measures.define_measure(
+        name=f"count_appointments_{time_description}_weekly_age",
+        numerator=count_appointment,
+        denominator=has_registration & (age > 18),
+        group_by={
+            "age_greater_equal_65": age_greater_equal_65,
+        },
+        intervals=weeks(12).starting_on(start_date),
+    )
+
+    measures.define_measure(
+        name=f"count_virtual_{time_description}_weekly_age",
+        numerator=count_virtual_consultation,
+        denominator=has_registration & (age > 18),
+        group_by={
+            "age_greater_equal_65": age_greater_equal_65,
+        },
+        intervals=weeks(12).starting_on(start_date),
+    )
+
+    measures.define_measure(
+        name=f"count_f2f_{time_description}_weekly_age",
+        numerator=count_f2f_consultation,
+        denominator=has_registration & (age > 18),
+        group_by={
+            "age_greater_equal_65": age_greater_equal_65,
+        },
+        intervals=weeks(12).starting_on(start_date),
+    )
+
     # measures.define_measure(
     #     name=f"has_virtual_{time_description}_weekly_age_sex",
     #     numerator=has_virtual_consultation,
