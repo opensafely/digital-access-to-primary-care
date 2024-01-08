@@ -58,13 +58,13 @@ actions:
        moderately_sensitive:
          measure_csv: output/data/summary_consultation_dataset.csv
 
-  binary_regression_01:
+  binary_regression:
      run: >
        r:latest analysis/binary_regression.R
      needs: [generate_consultation_dataset_2019-04-01_to_2020-03-31, generate_consultation_dataset_2020-04-01_to_2021-03-31, generate_consultation_dataset_2021-04-01_to_2022-03-31]
      outputs:
        moderately_sensitive:
-         measure_txt: output/data/binary_regression.txt          
+         results: output/results/binary_regression.txt        
 
   # summarise_consultation_codes:
   #   run: >
