@@ -5,7 +5,7 @@ expectations:
 
 actions:
 
-  generate_consultation_dataset_2019-04-01_to_2020-03-31:
+  generate_dataset_fy19to20:
     run: >
       ehrql:v1
         generate-dataset analysis/dataset_definition.py
@@ -17,7 +17,7 @@ actions:
       highly_sensitive:
         study_population: output/consultation_dataset_2019-04-01_to_2020-03-31.arrow
 
-  generate_consultation_dataset_2020-04-01_to_2021-03-31:
+  generate_dataset_fy20to21:
     run: >
       ehrql:v1
         generate-dataset analysis/dataset_definition.py
@@ -29,7 +29,7 @@ actions:
       highly_sensitive:
         study_population: output/consultation_dataset_2020-04-01_to_2021-03-31.arrow
 
-  generate_consultation_dataset_2021-04-01_to_2022-03-31:
+  generate_dataset_fy21to22:
     run: >
       ehrql:v1
         generate-dataset analysis/dataset_definition.py
@@ -41,7 +41,7 @@ actions:
       highly_sensitive:
         study_population: output/consultation_dataset_2021-04-01_to_2022-03-31.arrow
 
-  generate_consultation_measures:
+  generate_measures:
     run: >
       ehrql:v1
         generate-measures analysis/measures_definition.py
@@ -50,10 +50,10 @@ actions:
       moderately_sensitive:
         study_population: output/measures/consultation_measures.csv
 
-  summarise_consultation_datasets:
+  summarise_datasets:
      run: >
        r:latest analysis/summarise_consultation_dataset.R
-     needs: [generate_consultation_dataset_2019-04-01_to_2020-03-31, generate_consultation_dataset_2020-04-01_to_2021-03-31, generate_consultation_dataset_2021-04-01_to_2022-03-31]
+     needs: [generate_dataset_fy19to20, generate_dataset_fy20to21, generate_dataset_fy21to22]
      outputs:
        moderately_sensitive:
          measure_csv: output/data/summary_consultation_dataset.csv
@@ -61,7 +61,7 @@ actions:
   binary_regression:
      run: >
        r:latest analysis/binary_regression.R
-     needs: [generate_consultation_dataset_2019-04-01_to_2020-03-31, generate_consultation_dataset_2020-04-01_to_2021-03-31, generate_consultation_dataset_2021-04-01_to_2022-03-31]
+     needs: [generate_dataset_fy19to20, generate_dataset_fy20to21, generate_dataset_fy21to22]
      outputs:
        moderately_sensitive:
          results: output/results/binary_regression.txt        
@@ -69,15 +69,15 @@ actions:
   # summarise_consultation_codes:
   #   run: >
   #     r:latest analysis/investigate_consultation_codes.R
-  #   needs: [generate_consultation_dataset_2020-04-01_to_2021-03-31]
+  #   needs: [generate_dataset_2020-04-01_to_2021-03-31]
   #   outputs:
   #     moderately_sensitive:
   #       measure_csv: output/data/summary_consultation_codes.csv
 
-  # visualise_consultation_datasets:
+  # visualise_datasets:
   #    run: >
   #      r:latest analysis/visualise_consultation_dataset.R
-  #    needs: [generate_consultation_measures]
+  #    needs: [generate_measures]
   #    outputs:
   #      moderately_sensitive:
   #        figure_pre2019: output/figures/figure_pre2019_consultation_measure_by_age.png
