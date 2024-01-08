@@ -26,6 +26,7 @@ end_date = args.end_date
 
 # Instantiate dataset
 dataset = create_dataset()
+dataset.configure_dummy_data(population_size=5000)
 
 # Extract clinical events that fall between our start and end date
 # for further use in variable definitions below
@@ -72,7 +73,9 @@ dataset.last_f2f_consultation_code = (
 
 # Appointments identified through the appointments table
 # Get all appointments with status "Finished"
-appointments_finished = appointments.where(appointments.status.is_in(["Finished"]))
+appointments_finished = appointments.where(
+    appointments.status.is_in(["Finished"])
+).where(appointments.seen_date.is_on_or_between(start_date, end_date))
 
 # Count number of finished appointments in the time period
 dataset.count_appointment = appointments_finished.count_for_patient()
@@ -86,7 +89,7 @@ has_registration = practice_registrations.for_patient_on(
 ).exists_for_patient()
 
 dataset.age = patients.age_on(start_date)
-dataset.age_greater_equal_65 = dataset.age >= 65
+dataset.age_greater_equal_65 = (dataset.age >= 65)
 
 # Define patient sex and date of death
 dataset.sex = patients.sex

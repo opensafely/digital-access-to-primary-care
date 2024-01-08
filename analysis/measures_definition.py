@@ -16,6 +16,7 @@ from codelists import (
 
 # Instantiate dataset
 measures = create_measures()
+measures.configure_dummy_data(population_size=5000)
 
 # Extract clinical events that fall between our start and end date
 # for further use in variable definitions below
@@ -62,7 +63,9 @@ last_f2f_consultation_code = (
 
 # Appointments identified through the appointments table
 # Get all appointments with status "Finished"
-appointments_finished = appointments.where(appointments.status.is_in(["Finished"]))
+appointments_finished = appointments.where(
+    appointments.status.is_in(["Finished"])
+).where(appointments.seen_date.is_on_or_between(INTERVAL.start_date, INTERVAL.end_date))
 
 # Count number of finished appointments in the time period
 count_appointment = appointments_finished.count_for_patient()
@@ -76,7 +79,7 @@ has_registration = practice_registrations.for_patient_on(
 ).exists_for_patient()
 
 age = patients.age_on(INTERVAL.start_date)
-age_greater_equal_65 = age >= 65
+age_greater_equal_65 = (age >= 65)
 
 # Define patient sex and date of death
 sex = patients.sex
@@ -115,59 +118,105 @@ ethnicity = case(
     otherwise="missing",
 )
 
-# Define population denominator
-denominator = has_registration & (age > 18) & has_appointment
-
 # Specify description and start dates for measures
 measures_start_dates = {
-    "pre2019": "2019-04-01",
-    "during2020": "2020-04-01",
-    "during2021": "2021-04-01",
+    # "pre2019": "2019-03-01",
+    "during2020": "2020-02-01",
+    # "during2021": "2021-03-01",
 }
 
 # Iterate through the start dates in measures_start_dates and
 # calculate measures for each age sex/ethnicity/imd pair
 for time_description, start_date in measures_start_dates.items():
-
     measures.define_measure(
-        name=f"virtual_{time_description}_weekly_age",
-        numerator=has_virtual_consultation,
-        denominator=denominator,
+        name=f"has_appointments_{time_description}_weekly_age",
+        numerator=has_appointment,
+        denominator=has_registration & (age > 18),
         group_by={
             "age_greater_equal_65": age_greater_equal_65,
         },
-        intervals=weeks(52).starting_on(start_date),
+        intervals=weeks(12).starting_on(start_date),
     )
 
     measures.define_measure(
-        name=f"virtual_{time_description}_weekly_age_sex",
+        name=f"has_virtual_{time_description}_weekly_age",
         numerator=has_virtual_consultation,
-        denominator=denominator,
+        denominator=has_registration & (age > 18),
         group_by={
             "age_greater_equal_65": age_greater_equal_65,
-            "sex": sex,
         },
-        intervals=weeks(52).starting_on(start_date),
+        intervals=weeks(12).starting_on(start_date),
     )
 
     measures.define_measure(
-        name=f"virtual_{time_description}_weekly_age_ethnicity",
-        numerator=has_virtual_consultation,
-        denominator=denominator,
+        name=f"has_f2f_{time_description}_weekly_age",
+        numerator=has_f2f_consultation,
+        denominator=has_registration & (age > 18),
         group_by={
             "age_greater_equal_65": age_greater_equal_65,
-            "ethnicity": ethnicity,
         },
-        intervals=weeks(52).starting_on(start_date),
+        intervals=weeks(12).starting_on(start_date),
     )
 
     measures.define_measure(
-        name=f"virtual_{time_description}_weekly_age_imd",
-        numerator=has_virtual_consultation,
-        denominator=denominator,
+        name=f"count_appointments_{time_description}_weekly_age",
+        numerator=count_appointment,
+        denominator=has_registration & (age > 18),
         group_by={
             "age_greater_equal_65": age_greater_equal_65,
-            "imd_quintile": imd_quintile,
         },
-        intervals=weeks(52).starting_on(start_date),
+        intervals=weeks(12).starting_on(start_date),
     )
+
+    measures.define_measure(
+        name=f"count_virtual_{time_description}_weekly_age",
+        numerator=count_virtual_consultation,
+        denominator=has_registration & (age > 18),
+        group_by={
+            "age_greater_equal_65": age_greater_equal_65,
+        },
+        intervals=weeks(12).starting_on(start_date),
+    )
+
+    measures.define_measure(
+        name=f"count_f2f_{time_description}_weekly_age",
+        numerator=count_f2f_consultation,
+        denominator=has_registration & (age > 18),
+        group_by={
+            "age_greater_equal_65": age_greater_equal_65,
+        },
+        intervals=weeks(12).starting_on(start_date),
+    )
+
+    # measures.define_measure(
+    #     name=f"has_virtual_{time_description}_weekly_age_sex",
+    #     numerator=has_virtual_consultation,
+    #     denominator=has_registration & (age > 18),
+    #     group_by={
+    #         "age_greater_equal_65": age_greater_equal_65,
+    #         "sex": sex,
+    #     },
+    #     intervals=weeks(12).starting_on(start_date),
+    # )
+
+    # measures.define_measure(
+    #     name=f"has_virtual_{time_description}_weekly_age_ethnicity",
+    #     numerator=has_virtual_consultation,
+    #     denominator=has_registration & (age > 18),
+    #     group_by={
+    #         "age_greater_equal_65": age_greater_equal_65,
+    #         "ethnicity": ethnicity,
+    #     },
+    #     intervals=weeks(12).starting_on(start_date),
+    # )
+
+    # measures.define_measure(
+    #     name=f"has_virtual_{time_description}_weekly_age_imd",
+    #     numerator=has_virtual_consultation,
+    #     denominator=has_registration & (age > 18),
+    #     group_by={
+    #         "age_greater_equal_65": age_greater_equal_65,
+    #         "imd_quintile": imd_quintile,
+    #     },
+    #     intervals=weeks(12).starting_on(start_date),
+    # )
