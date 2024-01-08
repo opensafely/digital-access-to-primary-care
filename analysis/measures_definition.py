@@ -120,9 +120,9 @@ denominator = has_registration & (age > 18) & has_appointment
 
 # Specify description and start dates for measures
 measures_start_dates = {
-    "pre2019": "2019-04-01",
-    "during2020": "2020-04-01",
-    "during2021": "2021-04-01",
+    # "pre2019": "2019-03-01",
+    "during2020": "2020-02-01",
+    # "during2021": "2021-03-01",
 }
 
 # Iterate through the start dates in measures_start_dates and
@@ -136,7 +136,7 @@ for time_description, start_date in measures_start_dates.items():
         group_by={
             "age_greater_equal_65": age_greater_equal_65,
         },
-        intervals=weeks(52).starting_on(start_date),
+        intervals=weeks(12).starting_on(start_date),
     )
 
     measures.define_measure(
@@ -147,7 +147,7 @@ for time_description, start_date in measures_start_dates.items():
             "age_greater_equal_65": age_greater_equal_65,
             "sex": sex,
         },
-        intervals=weeks(52).starting_on(start_date),
+        intervals=weeks(12).starting_on(start_date),
     )
 
     measures.define_measure(
@@ -158,7 +158,7 @@ for time_description, start_date in measures_start_dates.items():
             "age_greater_equal_65": age_greater_equal_65,
             "ethnicity": ethnicity,
         },
-        intervals=weeks(52).starting_on(start_date),
+        intervals=weeks(12).starting_on(start_date),
     )
 
     measures.define_measure(
@@ -169,5 +169,5 @@ for time_description, start_date in measures_start_dates.items():
             "age_greater_equal_65": age_greater_equal_65,
             "imd_quintile": imd_quintile,
         },
-        intervals=weeks(52).starting_on(start_date),
+        intervals=weeks(12).starting_on(start_date),
     )
