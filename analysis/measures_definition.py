@@ -62,7 +62,9 @@ last_f2f_consultation_code = (
 
 # Appointments identified through the appointments table
 # Get all appointments with status "Finished"
-appointments_finished = appointments.where(appointments.status.is_in(["Finished"]))
+appointments_finished = appointments.where(
+    appointments.status.is_in(["Finished"])
+).where(appointments.seen_date.is_on_or_between(INTERVAL.start_date, INTERVAL.end_date))
 
 # Count number of finished appointments in the time period
 count_appointment = appointments_finished.count_for_patient()
@@ -76,7 +78,7 @@ has_registration = practice_registrations.for_patient_on(
 ).exists_for_patient()
 
 age = patients.age_on(INTERVAL.start_date)
-age_greater_equal_65 = age >= 65
+age_greater_equal_65 = (age >= 65)
 
 # Define patient sex and date of death
 sex = patients.sex
