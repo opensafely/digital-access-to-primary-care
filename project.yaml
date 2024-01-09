@@ -51,13 +51,13 @@ actions:
       moderately_sensitive:
         study_population: output/measures/consultation_measures.csv
 
-  summarise_datasets:
-     run: >
-       r:latest analysis/summarise_consultation_dataset.R
-     needs: [generate_dataset_fy19to20, generate_dataset_fy20to21, generate_dataset_fy21to22]
-     outputs:
-       moderately_sensitive:
-         measure_csv: output/data/summary_consultation_dataset.csv
+  # summarise_datasets:
+  #    run: >
+  #      r:latest analysis/summarise_consultation_dataset.R
+  #    needs: [generate_dataset_fy19to20, generate_dataset_fy20to21, generate_dataset_fy21to22]
+  #    outputs:
+  #      moderately_sensitive:
+  #        measure_csv: output/data/summary_consultation_dataset.csv
 
   binary_regression:
      run: >
