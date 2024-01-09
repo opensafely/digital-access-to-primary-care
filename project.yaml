@@ -57,7 +57,7 @@ actions:
      needs: [generate_dataset_fy19to20, generate_dataset_fy20to21, generate_dataset_fy21to22]
      outputs:
        moderately_sensitive:
-         measure_csv: output/data/summary_consultation_datasets.csv
+         datasets_summary: output/data/summary_consultation_datasets.csv
 
   binary_regression:
      run: >
@@ -73,7 +73,7 @@ actions:
     needs: [generate_dataset_fy20to21]
     outputs:
       moderately_sensitive:
-        measure_csv: output/data/summary_consultation_codes.csv
+        codes_summary: output/data/summary_consultation_codes.csv
 
   visualise_measures:
      run: >
