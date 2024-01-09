@@ -39,14 +39,16 @@ consultation_datasets <- consultation_dataset_paths %>%
   mutate(file_name = str_extract(file_name, regex_get_dates)) %>%
   separate(file_name, c("start_date", "end_date"), sep = "_to_")
 
-
-count_clinical_codes <- consultation_datasets %>%
+last_consultation_codes <- consultation_datasets %>%
   select(last_f2f_consultation_code, last_virtual_consultation_code) %>%
   pivot_longer(
     cols = c(last_f2f_consultation_code, last_virtual_consultation_code),
     names_to = "consultation_type",
     values_to = "snomedct_code"
-  ) %>%
+  ) 
+
+count_clinical_codes <- last_consultation_codes %>%
+  filter(!is.na(snomedct_code)) %>%
   group_by(consultation_type, snomedct_code) %>%
   count() %>%
   replace_na(list(snomedct_code = "(Missing)")) %>%
@@ -62,6 +64,10 @@ count_clinical_codes <- consultation_datasets %>%
 count_clinical_codes <- count_clinical_codes %>%
   left_join(code_descriptions, by = "snomedct_code") %>%
   select(1:5) 
+
+count_clinical_codes %>%
+  group_by(consultation_type) %>%
+  slice_max(percent, n = 10)
 
 dir_create(here("output", "data"))
 write_csv(count_clinical_codes, here("output", "data", "summary_consultation_codes.csv"))
