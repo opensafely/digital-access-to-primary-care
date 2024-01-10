@@ -52,7 +52,8 @@ plot_ratio_has_consultations <- df_measures %>%
     cols = vars(factor(age_greater_equal_65,
                        levels = age_levels,
                        labels = age_labels
-    ))
+    )),
+    scales = "free_y"
   ) +
   scale_y_continuous(labels = scales::label_percent()) +
   scale_x_date(breaks = x_breaks, labels = scales::label_date_short())
@@ -89,7 +90,8 @@ plot_numerator_count_consultations <- df_measures %>%
     cols = vars(factor(age_greater_equal_65,
                        levels = age_levels,
                        labels = age_labels
-    ))
+    )),
+    scales = "free_y"
   ) +
   scale_y_continuous(labels = scales::label_comma()) +
   scale_x_date(
