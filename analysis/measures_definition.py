@@ -61,17 +61,6 @@ last_f2f_consultation_code = (
     .snomedct_code
 )
 
-# Appointments identified through the appointments table
-# Get all appointments with status "Finished"
-appointments_finished = appointments.where(
-    appointments.status.is_in(["Finished"])
-).where(appointments.seen_date.is_on_or_between(INTERVAL.start_date, INTERVAL.end_date))
-
-# Count number of finished appointments in the time period
-count_appointment = appointments_finished.count_for_patient()
-# Specify if a patient had (True/False) a finished appointments in the time period
-has_appointment = appointments_finished.exists_for_patient()
-
 # Demographic variables and other patient characteristics
 # Define variable that checks if a patients is registered at the start date
 has_registration = practice_registrations.for_patient_on(
@@ -84,6 +73,20 @@ age_greater_equal_65 = (age >= 65)
 # Define patient sex and date of death
 sex = patients.sex
 dod = patients.date_of_death
+
+# Appointments identified through the appointments table
+# Get all appointments with status "Finished"
+appointments_finished = appointments.where(
+    appointments.status.is_in(["Finished"])
+).where(appointments.seen_date.is_on_or_between(INTERVAL.start_date, INTERVAL.end_date))
+
+# Count number of finished appointments in the time period
+sum_appointment_finished = appointments_finished & has_registration & (age > 18)
+count_appointment = sum_appointment_finished.count_for_patient()
+
+# Specify if a patient had (True/False) a finished appointments in the time period
+has_appointment = appointments_finished.exists_for_patient()
+
 
 # Define patient address: MSOA, rural-urban and IMD rank, using latest data for each patient
 latest_address_per_patient = addresses.sort_by(addresses.start_date).last_for_patient()
@@ -171,7 +174,7 @@ for time_description, start_date in measures_start_dates.items():
     measures.define_measure(
         name=f"count_virtual_{time_description}_weekly_age",
         numerator=count_virtual_consultation,
-        denominator=(has_registration & age > 18 [count_appointment]),
+        denominator=count_appointment,
         group_by={
             "age_greater_equal_65": age_greater_equal_65,
         },
@@ -181,7 +184,7 @@ for time_description, start_date in measures_start_dates.items():
     measures.define_measure(
         name=f"count_f2f_{time_description}_weekly_age",
         numerator=count_f2f_consultation,
-        denominator=(has_registration & age > 18 [count_appointment]),
+        denominator=count_appointment,
         group_by={
             "age_greater_equal_65": age_greater_equal_65,
         },
