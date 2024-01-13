@@ -141,7 +141,7 @@ for time_description, start_date in measures_start_dates.items():
     measures.define_measure(
         name=f"has_virtual_{time_description}_weekly_age",
         numerator=has_virtual_consultation,
-        denominator=has_appointment & has_registration & (age > 18),
+        denominator=has_appointment & (has_registration & (age > 18)),
         group_by={
             "age_greater_equal_65": age_greater_equal_65,
         },
@@ -151,7 +151,7 @@ for time_description, start_date in measures_start_dates.items():
     measures.define_measure(
         name=f"has_f2f_{time_description}_weekly_age",
         numerator=has_f2f_consultation,
-        denominator=has_appointment & has_registration & (age > 18),
+        denominator=has_appointment & (has_registration & (age > 18)),
         group_by={
             "age_greater_equal_65": age_greater_equal_65,
         },
@@ -171,7 +171,7 @@ for time_description, start_date in measures_start_dates.items():
     measures.define_measure(
         name=f"count_virtual_{time_description}_weekly_age",
         numerator=count_virtual_consultation,
-        denominator=count_appointment & has_registration & (age > 18),
+        denominator=count_appointment & (has_registration & (age > 18)),
         group_by={
             "age_greater_equal_65": age_greater_equal_65,
         },
@@ -181,7 +181,7 @@ for time_description, start_date in measures_start_dates.items():
     measures.define_measure(
         name=f"count_f2f_{time_description}_weekly_age",
         numerator=count_f2f_consultation,
-        denominator=count_appointment & has_registration & (age > 18),
+        denominator=count_appointment & (has_registration & (age > 18)),
         group_by={
             "age_greater_equal_65": age_greater_equal_65,
         },
