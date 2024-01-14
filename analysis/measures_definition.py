@@ -51,7 +51,7 @@ has_f2f_consultation = selected_events.where(
 
 # Count number of f2f that a patient had
 count_f2f_consultation = selected_events.where(
-    clinical_events.snomedct_code.is_in(virtual_consultation)
+    clinical_events.snomedct_code.is_in(f2f_consultation)
 ).count_for_patient()
 
 last_f2f_consultation_code = (
@@ -121,7 +121,7 @@ ethnicity = case(
 # Specify description and start dates for measures
 measures_start_dates = {
     # "pre2019": "2019-03-01",
-    "during2020": "2020-02-01",
+    "during2020": "2020-02-05",
     # "during2021": "2021-03-01",
 }
 
@@ -141,7 +141,7 @@ for time_description, start_date in measures_start_dates.items():
     measures.define_measure(
         name=f"has_virtual_{time_description}_weekly_age",
         numerator=has_virtual_consultation,
-        denominator=has_registration & (age > 18),
+        denominator=has_appointment & has_registration & (age > 18),
         group_by={
             "age_greater_equal_65": age_greater_equal_65,
         },
@@ -151,7 +151,7 @@ for time_description, start_date in measures_start_dates.items():
     measures.define_measure(
         name=f"has_f2f_{time_description}_weekly_age",
         numerator=has_f2f_consultation,
-        denominator=has_registration & (age > 18),
+        denominator=has_appointment & has_registration & (age > 18),
         group_by={
             "age_greater_equal_65": age_greater_equal_65,
         },
@@ -171,7 +171,7 @@ for time_description, start_date in measures_start_dates.items():
     measures.define_measure(
         name=f"count_virtual_{time_description}_weekly_age",
         numerator=count_virtual_consultation,
-        denominator=has_registration & (age > 18),
+        denominator=count_appointment,
         group_by={
             "age_greater_equal_65": age_greater_equal_65,
         },
@@ -181,7 +181,7 @@ for time_description, start_date in measures_start_dates.items():
     measures.define_measure(
         name=f"count_f2f_{time_description}_weekly_age",
         numerator=count_f2f_consultation,
-        denominator=has_registration & (age > 18),
+        denominator=count_appointment,
         group_by={
             "age_greater_equal_65": age_greater_equal_65,
         },

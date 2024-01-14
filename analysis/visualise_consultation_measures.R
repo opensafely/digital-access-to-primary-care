@@ -67,7 +67,7 @@ plot_numerator_count_consultations <- df_measures %>%
   filter(method == "count") %>%
   ggplot(aes(
     x = interval_end,
-    y = numerator,
+    y = ratio,
     group = factor(measure,
                    levels = measures_levels,
                    labels = measures_labels

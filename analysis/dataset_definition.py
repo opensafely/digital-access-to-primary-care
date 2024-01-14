@@ -61,7 +61,7 @@ dataset.has_f2f_consultation = selected_events.where(
 
 # Count number of f2f that a patient had
 dataset.count_f2f_consultation = selected_events.where(
-    clinical_events.snomedct_code.is_in(virtual_consultation)
+    clinical_events.snomedct_code.is_in(f2f_consultation)
 ).count_for_patient()
 
 dataset.last_f2f_consultation_code = (
