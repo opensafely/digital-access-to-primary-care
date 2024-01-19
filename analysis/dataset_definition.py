@@ -73,14 +73,21 @@ dataset.last_f2f_consultation_code = (
 
 # Appointments identified through the appointments table
 # Get all appointments with status "Finished"
-appointments_finished = appointments.where(
-    appointments.status.is_in(["Finished"])
+appointments_seen = appointments.where(
+    appointments.status.is_in([
+        "Arrived",
+        "In Progress",
+        "Finished",
+        "Visit",
+        "Waiting",
+        "Patient Walked Out",
+    ])
 ).where(appointments.seen_date.is_on_or_between(start_date, end_date))
 
 # Count number of finished appointments in the time period
-dataset.count_appointment = appointments_finished.count_for_patient()
+dataset.count_appointment = appointments_seen.count_for_patient()
 # Specify if a patient had (True/False) a finished appointment in the time period
-dataset.has_appointment = appointments_finished.exists_for_patient()
+dataset.has_appointment = appointments_seen.exists_for_patient()
 
 # Demographic variables and other patient characteristics
 # Define variable that checks if a patients is registered at the start date
@@ -129,4 +136,4 @@ dataset.ethnicity = case(
 )
 
 # Define population to be registered and above 18 years old
-dataset.define_population(has_registration & (dataset.age > 18))
+dataset.define_population(has_registration & (dataset.age >= 18))

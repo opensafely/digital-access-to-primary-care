@@ -63,14 +63,21 @@ last_f2f_consultation_code = (
 
 # Appointments identified through the appointments table
 # Get all appointments with status "Finished"
-appointments_finished = appointments.where(
-    appointments.status.is_in(["Finished"])
+appointments_seen = appointments.where(
+    appointments.status.is_in([
+        "Arrived",
+        "In Progress",
+        "Finished",
+        "Visit",
+        "Waiting",
+        "Patient Walked Out",
+    ])
 ).where(appointments.seen_date.is_on_or_between(INTERVAL.start_date, INTERVAL.end_date))
 
 # Count number of finished appointments in the time period
-count_appointment = appointments_finished.count_for_patient()
+count_appointment = appointments_seen.count_for_patient()
 # Specify if a patient had (True/False) a finished appointments in the time period
-has_appointment = appointments_finished.exists_for_patient()
+has_appointment = appointments_seen.exists_for_patient()
 
 # Demographic variables and other patient characteristics
 # Define variable that checks if a patients is registered at the start date
@@ -131,9 +138,14 @@ for time_description, start_date in measures_start_dates.items():
     measures.define_measure(
         name=f"has_appointments_{time_description}_weekly_age",
         numerator=has_appointment,
-        denominator=has_registration & (age > 18),
+        denominator=has_registration & (age >= 18),
         group_by={
             "age_greater_equal_65": age_greater_equal_65,
+            "age_65-69": (age >= 65 & age <70),
+            "age_70-64": (age >= 70 & age <75),
+            "age_75-79": (age >= 75 & age <80),
+            "age_80-84": (age >= 80 & age <85),
+            "age_85+": (age >= 85),
         },
         intervals=weeks(12).starting_on(start_date),
     )
@@ -141,22 +153,27 @@ for time_description, start_date in measures_start_dates.items():
     measures.define_measure(
         name=f"has_virtual_{time_description}_weekly_age",
         numerator=has_virtual_consultation,
-        denominator=has_appointment & has_registration & (age > 18),
+        denominator=has_appointment & has_registration & (age >= 18),
         group_by={
             "age_greater_equal_65": age_greater_equal_65,
+            "age_65-69": (age >= 65 & age <70),
+            "age_70-64": (age >= 70 & age <75),
+            "age_75-79": (age >= 75 & age <80),
+            "age_80-84": (age >= 80 & age <85),
+            "age_85+": (age >= 85),
         },
         intervals=weeks(12).starting_on(start_date),
     )
 
-    measures.define_measure(
-        name=f"has_f2f_{time_description}_weekly_age",
-        numerator=has_f2f_consultation,
-        denominator=has_appointment & has_registration & (age > 18),
-        group_by={
-            "age_greater_equal_65": age_greater_equal_65,
-        },
-        intervals=weeks(12).starting_on(start_date),
-    )
+    # measures.define_measure(
+    #     name=f"has_f2f_{time_description}_weekly_age",
+    #     numerator=has_f2f_consultation,
+    #     denominator=has_appointment & has_registration & (age > 18),
+    #     group_by={
+    #         "age_greater_equal_65": age_greater_equal_65,
+    #     },
+    #     intervals=weeks(12).starting_on(start_date),
+    # )
 
     measures.define_measure(
         name=f"count_appointments_{time_description}_weekly_age",
@@ -164,6 +181,11 @@ for time_description, start_date in measures_start_dates.items():
         denominator=has_registration & (age > 18),
         group_by={
             "age_greater_equal_65": age_greater_equal_65,
+            "age_65-69": (age >= 65 & age <70),
+            "age_70-64": (age >= 70 & age <75),
+            "age_75-79": (age >= 75 & age <80),
+            "age_80-84": (age >= 80 & age <85),
+            "age_85+": (age >= 85),
         },
         intervals=weeks(12).starting_on(start_date),
     )
@@ -174,19 +196,24 @@ for time_description, start_date in measures_start_dates.items():
         denominator=count_appointment,
         group_by={
             "age_greater_equal_65": age_greater_equal_65,
+            "age_65-69": (age >= 65 & age <70),
+            "age_70-64": (age >= 70 & age <75),
+            "age_75-79": (age >= 75 & age <80),
+            "age_80-84": (age >= 80 & age <85),
+            "age_85+": (age >= 85),
         },
         intervals=weeks(12).starting_on(start_date),
     )
 
-    measures.define_measure(
-        name=f"count_f2f_{time_description}_weekly_age",
-        numerator=count_f2f_consultation,
-        denominator=count_appointment,
-        group_by={
-            "age_greater_equal_65": age_greater_equal_65,
-        },
-        intervals=weeks(12).starting_on(start_date),
-    )
+    # measures.define_measure(
+    #     name=f"count_f2f_{time_description}_weekly_age",
+    #     numerator=count_f2f_consultation,
+    #     denominator=count_appointment,
+    #     group_by={
+    #         "age_greater_equal_65": age_greater_equal_65,
+    #     },
+    #     intervals=weeks(12).starting_on(start_date),
+    # )
 
     # measures.define_measure(
     #     name=f"has_virtual_{time_description}_weekly_age_sex",
