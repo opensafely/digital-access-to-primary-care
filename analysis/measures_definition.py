@@ -93,6 +93,8 @@ age_75_79 = (age >= 75) & (age <80)
 age_80_84 = (age >= 80) & (age <85)
 age_greater_equal_85 = (age >= 85)
 
+#registered patients who are age >=18
+registered_age_greater_equal_18 = has_registration & (age >= 18) 
 
 # Define patient sex and date of death
 sex = patients.sex
@@ -203,7 +205,7 @@ for time_description, start_date in measures_start_dates.items():
     measures.define_measure(
         name=f"count_virtual_{time_description}_weekly_age",
         numerator=count_virtual_consultation,
-        denominator=count_appointment,
+        denominator=(count_appointment) & (registered_age_greater_equal_18),
         group_by={
             "age_greater_equal_65": age_greater_equal_65,
             "age_65_69": age_65_69,
@@ -218,7 +220,7 @@ for time_description, start_date in measures_start_dates.items():
     measures.define_measure(
         name=f"count_f2f_{time_description}_weekly_age",
         numerator=count_f2f_consultation,
-        denominator=count_appointment,
+        denominator=(count_appointment) & (registered_age_greater_equal_18),
         group_by={"age_greater_equal_65": age_greater_equal_65,
             "age_65_69": age_65_69,
             "age_70_64": age_70_64,
