@@ -82,4 +82,4 @@ actions:
      outputs:
        moderately_sensitive:
          figure_ratio: output/figures/plot_ratio_has_consultations.png
-         figure_count: output/figures/plot_numerator_count_consultations.png
+         figure_count: output/figures/plot_ratio_count_consultations.png
