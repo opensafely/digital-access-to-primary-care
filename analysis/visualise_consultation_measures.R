@@ -18,7 +18,7 @@ df_measures <- read_csv(here("output", "measures", "consultation_measures.csv"),
 x_breaks <- seq(min(df_measures$interval_end), max(df_measures$interval_end), by = 7)
 unique(df_measures$measure)
 
-measures_levels <- c("has_appointments_during2020_weekly_age", "has_appointments_during2020_weekly_age_band", "has_virtual_during2020_weekly_age", "has_virtual_during2020_weekly_age_band", "count_appointments_during2020_weekly_age",- "count_appointments_during2020_weekly_age_band", "count_virtual_during2020_weekly_age", "count_virtual_during2020_weekly_age_band")
+measures_levels <- c("has_appointments_during2020_weekly_age", "has_appointments_during2020_weekly_age_band", "has_virtual_during2020_weekly_age", "has_virtual_during2020_weekly_age_band", "count_appointments_during2020_weekly_age", "count_appointments_during2020_weekly_age_band", "count_virtual_during2020_weekly_age", "count_virtual_during2020_weekly_age_band")
 measures_labels <- c("Appointments table by age", "Appointments table by age band", "Virtual consultation codes by age", "Virtual consultation codes by age_band", "Appointments table by age", "Appointments table by age band", "Virtual consultation codes by age", "Virtual consultation codes by age band")
 
 #age_levels <- c(FALSE, TRUE)
