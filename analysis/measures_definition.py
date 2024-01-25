@@ -64,18 +64,18 @@ last_f2f_consultation_code = (
 # Appointments identified through the appointments table
 # Get all appointments with status "Finished"
 appointments_seen = appointments.where(
-    appointments.status.is_in([
-        "Arrived",
-        "In Progress",
-        "Finished",
-        "Visit",
-        "Waiting",
-        "Patient Walked Out",
-    ])
+    appointments.status.is_in(
+        [
+            "Arrived",
+            "In Progress",
+            "Finished",
+            "Visit",
+            "Waiting",
+            "Patient Walked Out",
+        ]
+    )
 ).where(appointments.seen_date.is_on_or_between(INTERVAL.start_date, INTERVAL.end_date))
 
-# Count number of finished appointments in the time period
-count_appointment = appointments_seen.count_for_patient()
 # Specify if a patient had (True/False) a finished appointments in the time period
 has_appointment = appointments_seen.exists_for_patient()
 
@@ -86,12 +86,12 @@ has_registration = practice_registrations.for_patient_on(
 ).exists_for_patient()
 
 age = patients.age_on(INTERVAL.start_date)
-age_greater_equal_65 = (age >= 65)
-age_band =case(
-    when((age >= 65) & (age <70)).then("age_65_69"),
-    when((age >= 70) & (age <75)).then("age_70_64"),
-    when((age >= 75) & (age <80)).then("age_75_79"),
-    when((age >= 80) & (age <85)).then("age_80_84"),
+age_greater_equal_65 = age >= 65
+age_band = case(
+    when((age >= 65) & (age < 70)).then("age_65_69"),
+    when((age >= 70) & (age < 75)).then("age_70_64"),
+    when((age >= 75) & (age < 80)).then("age_75_79"),
+    when((age >= 80) & (age < 85)).then("age_80_84"),
     when((age >= 85)).then("age_greater_equal_85"),
     otherwise="Missing",
 )
@@ -132,6 +132,11 @@ ethnicity = case(
     when(latest_ethnicity == "5").then("Chinese or Other Ethnic Groups"),
     otherwise="missing",
 )
+
+# Count number of finished appointments in the time period
+count_appointment = appointments_seen.where(
+    has_registration & (age >= 18)
+).count_for_patient()
 
 # Specify description and start dates for measures
 measures_start_dates = {
@@ -201,7 +206,7 @@ for time_description, start_date in measures_start_dates.items():
         },
         intervals=weeks(12).starting_on(start_date),
     )
-    
+
     measures.define_measure(
         name=f"count_appointments_{time_description}_weekly_age_band",
         numerator=count_appointment,
