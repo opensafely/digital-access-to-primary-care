@@ -59,13 +59,13 @@ actions:
        moderately_sensitive:
          datasets_summary: output/data/summary_consultation_datasets.csv
 
-  binary_regression:
-     run: >
-       r:latest analysis/binary_regression.R
-     needs: [generate_dataset_fy19to20, generate_dataset_fy20to21, generate_dataset_fy21to22]
-     outputs:
-       moderately_sensitive:
-         results: output/results/binary_regression.txt        
+  # binary_regression:
+  #    run: >
+  #      r:latest analysis/binary_regression.R
+  #    needs: [generate_dataset_fy19to20, generate_dataset_fy20to21, generate_dataset_fy21to22]
+  #    outputs:
+  #      moderately_sensitive:
+  #        results: output/results/binary_regression.txt        
 
   summarise_codes:
     run: >
