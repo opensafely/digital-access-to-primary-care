@@ -83,11 +83,11 @@ actions:
       moderately_sensitive:
         codes_summary: output/data/summary_last_appointment_status.csv
 
-  visualise_measures:
-     run: >
-       r:latest analysis/visualise_consultation_measures.R
-     needs: [generate_measures]
-     outputs:
-       moderately_sensitive:
-         figure_ratio: output/figures/plot_ratio_has_consultations.png
-         figure_count: output/figures/plot_ratio_count_consultations.png
+  # visualise_measures:
+  #    run: >
+  #      r:latest analysis/visualise_consultation_measures.R
+  #    needs: [generate_measures]
+  #    outputs:
+  #      moderately_sensitive:
+  #        figure_ratio: output/figures/plot_ratio_has_consultations.png
+  #        figure_count: output/figures/plot_ratio_count_consultations.png

@@ -40,6 +40,6 @@ summary_text3 <- capture.output(summary(glm(has_virtual_consultation ~ age_great
 
 # Write data
 fs::dir_create(here::here("output", "results"))
-write_lines(c("start_date == '2019-04-01'", summary_text1), here("output", "results", "binary_regression.txt"))
-write_lines(c("start_date == '2020-04-01'", summary_text2), here("output", "results", "binary_regression.txt"), append = TRUE)
-write_lines(c("start_date == '2021-04-01'", summary_text3), here("output", "results", "binary_regression.txt"), append = TRUE)
+write_lines(c("start_date == '2019-03-23'", summary_text1), here("output", "results", "binary_regression.txt"))
+write_lines(c("start_date == '2020-03-23'", summary_text2), here("output", "results", "binary_regression.txt"), append = TRUE)
+write_lines(c("start_date == '2021-03-23'", summary_text3), here("output", "results", "binary_regression.txt"), append = TRUE)
