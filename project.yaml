@@ -75,6 +75,14 @@ actions:
       moderately_sensitive:
         codes_summary: output/data/summary_consultation_codes.csv
 
+  summarise_appointment_status:
+    run: >
+      r:latest analysis/investigate_appointment_status.R
+    needs: [generate_dataset_fy20to21]
+    outputs:
+      moderately_sensitive:
+        codes_summary: output/data/summary_last_appointment_status.csv
+
   visualise_measures:
      run: >
        r:latest analysis/visualise_consultation_measures.R
