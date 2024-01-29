@@ -62,7 +62,7 @@ last_f2f_consultation_code = (
 )
 
 # Appointments identified through the appointments table
-# Get all appointments with status "Finished"
+# Get all appointments with seen date
 appointments_seen = appointments.where(
     appointments.status.is_in(
         [
@@ -133,7 +133,7 @@ ethnicity = case(
     otherwise="missing",
 )
 
-# Count number of finished appointments in the time period
+# Count number of seen appointments in the time period
 count_appointment = appointments_seen.where(
     has_registration & (age >= 18)
 ).count_for_patient()
