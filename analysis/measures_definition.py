@@ -76,8 +76,6 @@ appointments_seen = appointments.where(
     )
 ).where(appointments.seen_date.is_on_or_between(INTERVAL.start_date, INTERVAL.end_date))
 
-# Count number of finished appointments in the time period
-count_appointment = appointments_seen.count_for_patient()
 # Specify if a patient had (True/False) a finished appointments in the time period
 has_appointment = appointments_seen.exists_for_patient()
 
@@ -134,6 +132,11 @@ ethnicity = case(
     when(latest_ethnicity == "5").then("Chinese or Other Ethnic Groups"),
     otherwise="missing",
 )
+
+# Count number of finished appointments in the time period
+count_appointment = appointments_seen.where(
+    has_registration & (age >= 18)
+).count_for_patient()
 
 # Specify description and start dates for measures
 measures_start_dates = {
