@@ -91,7 +91,7 @@ dataset.last_appointment_status = (
 )
 
 
-# Count number of finished appointments in the time period
+# Count number of total seen appointments in the time period
 dataset.count_appointment = appointments_seen.count_for_patient()
 # Specify if a patient had (True/False) a finished appointment in the time period
 dataset.has_appointment = appointments_seen.exists_for_patient()

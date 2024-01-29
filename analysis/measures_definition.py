@@ -62,7 +62,7 @@ last_f2f_consultation_code = (
 )
 
 # Appointments identified through the appointments table
-# Get all appointments with status "Finished"
+# Get all appointments with seen date
 appointments_seen = appointments.where(
     appointments.status.is_in(
         [
@@ -133,16 +133,16 @@ ethnicity = case(
     otherwise="missing",
 )
 
-# Count number of finished appointments in the time period
+# Count number of seen appointments in the time period
 count_appointment = appointments_seen.where(
     has_registration & (age >= 18)
 ).count_for_patient()
 
 # Specify description and start dates for measures
 measures_start_dates = {
-    # "pre2019": "2019-03-01",
-    "during2020": "2020-02-05",
-    # "during2021": "2021-03-01",
+    "pre2019": "2019-03-23",
+    "during2020": "2020-03-23",
+    "during2021": "2021-03-23",
 }
 
 # Iterate through the start dates in measures_start_dates and
@@ -155,7 +155,7 @@ for time_description, start_date in measures_start_dates.items():
         group_by={
             "age_greater_equal_65": age_greater_equal_65,
         },
-        intervals=weeks(12).starting_on(start_date),
+        intervals=weeks(26).starting_on(start_date),
     )
 
     measures.define_measure(
@@ -165,7 +165,7 @@ for time_description, start_date in measures_start_dates.items():
         group_by={
             "age_band": age_band,
         },
-        intervals=weeks(12).starting_on(start_date),
+        intervals=weeks(26).starting_on(start_date),
     )
 
     measures.define_measure(
@@ -175,7 +175,7 @@ for time_description, start_date in measures_start_dates.items():
         group_by={
             "age_greater_equal_65": age_greater_equal_65,
         },
-        intervals=weeks(12).starting_on(start_date),
+        intervals=weeks(26).starting_on(start_date),
     )
 
     measures.define_measure(
@@ -185,7 +185,7 @@ for time_description, start_date in measures_start_dates.items():
         group_by={
             "age_band": age_band,
         },
-        intervals=weeks(12).starting_on(start_date),
+        intervals=weeks(26).starting_on(start_date),
     )
 
     # measures.define_measure(
@@ -204,7 +204,7 @@ for time_description, start_date in measures_start_dates.items():
         group_by={
             "age_greater_equal_65": age_greater_equal_65,
         },
-        intervals=weeks(12).starting_on(start_date),
+        intervals=weeks(26).starting_on(start_date),
     )
 
     measures.define_measure(
@@ -214,7 +214,7 @@ for time_description, start_date in measures_start_dates.items():
         group_by={
             "age_band": age_band,
         },
-        intervals=weeks(12).starting_on(start_date),
+        intervals=weeks(26).starting_on(start_date),
     )
 
     measures.define_measure(
@@ -224,7 +224,7 @@ for time_description, start_date in measures_start_dates.items():
         group_by={
             "age_greater_equal_65": age_greater_equal_65,
         },
-        intervals=weeks(12).starting_on(start_date),
+        intervals=weeks(26).starting_on(start_date),
     )
 
     measures.define_measure(
@@ -234,7 +234,7 @@ for time_description, start_date in measures_start_dates.items():
         group_by={
             "age_band": age_band,
         },
-        intervals=weeks(12).starting_on(start_date),
+        intervals=weeks(26).starting_on(start_date),
     )
 
     # measures.define_measure(
