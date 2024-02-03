@@ -7,6 +7,7 @@ library(readr)
 library(tidyr)
 library(purrr)
 library(MASS)
+library(broom)
 
 # Read file paths of all datasets
 consultation_dataset_paths <- fs::dir_ls(path = "output/", glob = "*consultation_dataset_*.arrow$")
@@ -48,19 +49,34 @@ consultation_datasets <- consultation_datasets %>%
 consultation_datasets_filtered <- consultation_datasets %>% filter(start_date == "2019-03-23")
 
 # Run a generalised linear model with binary outcome using has_virtual_consultation as outcome
-summary_text1 <- capture.output(summary(glm.nb(count_virtual_consultation ~ age_band + sex + imd_quintile + ethnicity, data = consultation_datasets_filtered)))
+model1 <- (glm.nb(count_virtual_consultation ~ age_band + sex + imd_quintile + ethnicity, data = consultation_datasets_filtered))
+coef_table1 <- as.data.frame(exp(coef(model1)))
+confint_table1 <- as.data.frame(exp(confint.default(model1)))
+pvalues1 <- summary(model1)$coefficients[, "Pr(>|z|)"]
+result_table1 <- cbind(coef_table1, confint_table1, pvalues1)
+summary_text1 <- capture.output(print(result_table1))
 
 # filter by start date to separate the data to financials years 2020/21
 consultation_datasets_filtered <- consultation_datasets %>% filter(start_date == "2020-03-23")
 
 # Run a generalised linear model with binary outcome using has_virtual_consultation as outcome
-summary_text2 <- capture.output(summary(glm.nb(count_virtual_consultation ~ age_band + sex + imd_quintile + ethnicity, data = consultation_datasets_filtered)))
+model2 <- (glm.nb(count_virtual_consultation ~ age_band + sex + imd_quintile + ethnicity, data = consultation_datasets_filtered))
+coef_table2 <- as.data.frame(exp(coef(model2)))
+confint_table2 <- as.data.frame(exp(confint.default(model2)))
+pvalues2 <- summary(model2)$coefficients[, "Pr(>|z|)"]
+result_table2 <- cbind(coef_table2, confint_table2, pvalues2)
+summary_text2 <- capture.output(print(result_table2))
 
 # filter by start date to separate the data to financials years 2021/22
 consultation_datasets_filtered <- consultation_datasets %>% filter(start_date == "2021-03-23")
 
 # Run a generalised linear model with binary outcome using has_virtual_consultation as outcome
-summary_text3 <- capture.output(summary(glm.nb(count_virtual_consultation ~ age_band + sex + imd_quintile + ethnicity, data = consultation_datasets_filtered)))
+model3 <- (glm.nb(count_virtual_consultation ~ age_band + sex + imd_quintile + ethnicity, data = consultation_datasets_filtered))
+coef_table3 <- as.data.frame(exp(coef(model3)))
+confint_table3 <- as.data.frame(exp(confint.default(model3)))
+pvalues3 <- summary(model3)$coefficients[, "Pr(>|z|)"]
+result_table3 <- cbind(coef_table3, confint_table3, pvalues3)
+summary_text3 <- capture.output(print(result_table3))
 
 # Write data
 fs::dir_create(here::here("output", "results"))
