@@ -48,7 +48,7 @@ consultation_datasets <- consultation_datasets %>%
 # filter by start date to separate the data to financials years 2019/20
 consultation_datasets_filtered <- consultation_datasets %>% filter(start_date == "2019-03-23")
 
-# Run a generalised linear model with binary outcome using has_virtual_consultation as outcome
+# Run a glm negative binomial regression model using count_virtual_consultation as outcome for 2019/20
 model1 <- (glm.nb(count_virtual_consultation ~ age_band + sex + imd_quintile + ethnicity, data = consultation_datasets_filtered))
 coef_table1 <- as.data.frame(exp(coef(model1)))
 confint_table1 <- as.data.frame(exp(confint.default(model1)))
@@ -59,7 +59,7 @@ summary_text1 <- capture.output(print(result_table1))
 # filter by start date to separate the data to financials years 2020/21
 consultation_datasets_filtered <- consultation_datasets %>% filter(start_date == "2020-03-23")
 
-# Run a generalised linear model with binary outcome using has_virtual_consultation as outcome
+# Run a glm negative binomial regression model using count_virtual_consultation as outcome for 2020/21
 model2 <- (glm.nb(count_virtual_consultation ~ age_band + sex + imd_quintile + ethnicity, data = consultation_datasets_filtered))
 coef_table2 <- as.data.frame(exp(coef(model2)))
 confint_table2 <- as.data.frame(exp(confint.default(model2)))
@@ -70,7 +70,7 @@ summary_text2 <- capture.output(print(result_table2))
 # filter by start date to separate the data to financials years 2021/22
 consultation_datasets_filtered <- consultation_datasets %>% filter(start_date == "2021-03-23")
 
-# Run a generalised linear model with binary outcome using has_virtual_consultation as outcome
+# Run a glm negative binomial regression model using count_virtual_consultation as outcome for 2021/22
 model3 <- (glm.nb(count_virtual_consultation ~ age_band + sex + imd_quintile + ethnicity, data = consultation_datasets_filtered))
 coef_table3 <- as.data.frame(exp(coef(model3)))
 confint_table3 <- as.data.frame(exp(confint.default(model3)))
@@ -78,8 +78,44 @@ pvalues3 <- summary(model3)$coefficients[, "Pr(>|z|)"]
 result_table3 <- cbind(coef_table3, confint_table3, pvalues3)
 summary_text3 <- capture.output(print(result_table3))
 
+# filter by start date to separate the data to financials years 2019/20
+consultation_datasets_filtered <- consultation_datasets %>% filter(start_date == "2019-03-23")
+
+# Run a glm negative binomial regression model using count_appointment as outcome for 2019/20
+model4 <- (glm.nb(count_appointment ~ age_band + sex + imd_quintile + ethnicity, data = consultation_datasets_filtered))
+coef_table4 <- as.data.frame(exp(coef(model4)))
+confint_table4 <- as.data.frame(exp(confint.default(model4)))
+pvalues4 <- summary(model4)$coefficients[, "Pr(>|z|)"]
+result_table4 <- cbind(coef_table4, confint_table4, pvalues4)
+summary_text4 <- capture.output(print(result_table4))
+
+# filter by start date to separate the data to financials years 2020/21
+consultation_datasets_filtered <- consultation_datasets %>% filter(start_date == "2020-03-23")
+
+# Run a glm negative binomial regression model using count_appointment as outcome for 2020/21
+model5 <- (glm.nb(count_appointment ~ age_band + sex + imd_quintile + ethnicity, data = consultation_datasets_filtered))
+coef_table5 <- as.data.frame(exp(coef(model5)))
+confint_table5 <- as.data.frame(exp(confint.default(model5)))
+pvalues5 <- summary(model5)$coefficients[, "Pr(>|z|)"]
+result_table5 <- cbind(coef_table5, confint_table5, pvalues5)
+summary_text5 <- capture.output(print(result_table5))
+
+# filter by start date to separate the data to financials years 2021/22
+consultation_datasets_filtered <- consultation_datasets %>% filter(start_date == "2021-03-23")
+
+# Run a glm negative binomial regression model using count_appointment as outcome for 2021/22
+model6 <- (glm.nb(count_appointment ~ age_band + sex + imd_quintile + ethnicity, data = consultation_datasets_filtered))
+coef_table6 <- as.data.frame(exp(coef(model6)))
+confint_table6 <- as.data.frame(exp(confint.default(model6)))
+pvalues6 <- summary(model6)$coefficients[, "Pr(>|z|)"]
+result_table6 <- cbind(coef_table6, confint_table6, pvalues6)
+summary_text6 <- capture.output(print(result_table6))
+
 # Write data
 fs::dir_create(here::here("output", "results"))
 write_lines(c("start_date == '2019-03-23'", summary_text1), here("output", "results", "binary_regression.txt"))
 write_lines(c("start_date == '2020-03-23'", summary_text2), here("output", "results", "binary_regression.txt"), append = TRUE)
 write_lines(c("start_date == '2021-03-23'", summary_text3), here("output", "results", "binary_regression.txt"), append = TRUE)
+write_lines(c("start_date == '2019-03-23'", summary_text4), here("output", "results", "binary_regression.txt"), append = TRUE)
+write_lines(c("start_date == '2020-03-23'", summary_text5), here("output", "results", "binary_regression.txt"), append = TRUE)
+write_lines(c("start_date == '2021-03-23'", summary_text6), here("output", "results", "binary_regression.txt"), append = TRUE)
