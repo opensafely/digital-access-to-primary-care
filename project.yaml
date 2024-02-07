@@ -61,7 +61,7 @@ actions:
 
   nb_regression:
      run: >
-       r:latest analysis/negative binomial model.R
+       r:latest analysis/negative_binomial_model.R
      needs: [generate_dataset_fy19to20, generate_dataset_fy20to21, generate_dataset_fy21to22]
      outputs:
        moderately_sensitive:
