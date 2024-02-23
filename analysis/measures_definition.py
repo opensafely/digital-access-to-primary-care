@@ -1,4 +1,4 @@
-from ehrql import INTERVAL, create_measures, case, when, months, weeks
+from ehrql import INTERVAL, create_measures, case, when, years, months, weeks
 
 from ehrql.tables.tpp import (
     clinical_events,
@@ -98,6 +98,7 @@ age_band = case(
 
 # Define patient sex and date of death
 sex = patients.sex
+has_recorded_sex = patients.sex.is_in(["male", "female"])
 dod = patients.date_of_death
 
 # Define patient address: MSOA, rural-urban and IMD rank, using latest data for each patient
@@ -135,8 +136,8 @@ ethnicity = case(
 
 # Count number of seen appointments in the time period
 count_appointment = appointments_seen.where(
-    has_registration & (age >= 18)
-).count_for_patient()
+    has_registration & (age >= 18) & has_recorded_sex
+).count_for_patient() 
 
 # Specify description and start dates for measures
 measures_start_dates = {
@@ -149,104 +150,78 @@ measures_start_dates = {
 # calculate measures for each age sex/ethnicity/imd pair
 for time_description, start_date in measures_start_dates.items():
     measures.define_measure(
-        name=f"has_appointments_{time_description}_monthly_age",
-        numerator=has_appointment,
-        denominator=has_registration & (age >= 18),
-        group_by={
-            "age_band": age_band,
-        },
-        intervals=months(12).starting_on(start_date),
-    )
-
-    measures.define_measure(
-        name=f"count_appointments_{time_description}_monthly_age",
-        numerator=count_appointment,
-        denominator=has_registration & (age > 18),
-        group_by={
-            "age_band": age_band,
-        },
-        intervals=months(12).starting_on(start_date),
-    )
-
-    measures.define_measure(
-        name=f"has_virtual_{time_description}_monthly_age",
-        numerator=has_virtual_consultation,
-        denominator=has_appointment & has_registration & (age >= 18),
-        group_by={
-            "age_band": age_band,
-        },
-        intervals=months(12).starting_on(start_date),
-    )
-
-    measures.define_measure(
         name=f"count_virtual_{time_description}_monthly_age",
         numerator=count_virtual_consultation,
         denominator=count_appointment,
         group_by={
             "age_band": age_band,
-        },
-        intervals=months(12).starting_on(start_date),
-    )
-
-    measures.define_measure(
-        name=f"count_virtual_{time_description}_monthly_sex",
-        numerator=count_virtual_consultation,
-        denominator=count_appointment,
-        group_by={
             "sex": sex,
-        },
-        intervals=months(12).starting_on(start_date),
-    )
-    
-    measures.define_measure(
-        name=f"count_virtual_{time_description}_monthly_ethnicity",
-        numerator=count_virtual_consultation,
-        denominator=count_appointment,
-        group_by={
             "ethnicity": ethnicity,
-        },
-        intervals=months(12).starting_on(start_date),
-    )
-
-    measures.define_measure(
-        name=f"count_virtual_{time_description}_monthly_imd_quintile",
-        numerator=count_virtual_consultation,
-        denominator=count_appointment,
-        group_by={
             "imd_quintile": imd_quintile,
+
         },
-        intervals=months(12).starting_on(start_date),
+        intervals=years(1).starting_on(start_date),
     )
 
-    measures.define_measure(
-        name=f"count_virtual_{time_description}_monthly_age_sex",
-        numerator=count_virtual_consultation,
-        denominator=count_appointment,
-        group_by={
-            "age_band": age_band,
-            "sex": sex,
-        },
-        intervals=months(12).starting_on(start_date),
-    )
+    # measures.define_measure(
+    #     name=f"count_virtual_{time_description}_monthly_sex",
+    #     numerator=count_virtual_consultation,
+    #     denominator=count_appointment,
+    #     group_by={
+    #         "sex": sex,
+    #     },
+    #     intervals=months(12).starting_on(start_date),
+    # )
     
-    measures.define_measure(
-        name=f"count_virtual_{time_description}_monthly_age_ethnicity",
-        numerator=count_virtual_consultation,
-        denominator=count_appointment,
-        group_by={
-            "age_band": age_band,
-            "ethnicity": ethnicity,
-        },
-        intervals=months(12).starting_on(start_date),
-    )
+    # measures.define_measure(
+    #     name=f"count_virtual_{time_description}_monthly_ethnicity",
+    #     numerator=count_virtual_consultation,
+    #     denominator=count_appointment,
+    #     group_by={
+    #         "ethnicity": ethnicity,
+    #     },
+    #     intervals=months(12).starting_on(start_date),
+    # )
 
-    measures.define_measure(
-        name=f"count_virtual_{time_description}_monthly_age_imd_quintile",
-        numerator=count_virtual_consultation,
-        denominator=count_appointment,
-        group_by={
-            "age_band": age_band,
-            "imd_quintile": imd_quintile,
-        },
-        intervals=months(12).starting_on(start_date),
-    )
+    # measures.define_measure(
+    #     name=f"count_virtual_{time_description}_monthly_imd_quintile",
+    #     numerator=count_virtual_consultation,
+    #     denominator=count_appointment,
+    #     group_by={
+    #         "imd_quintile": imd_quintile,
+    #     },
+    #     intervals=months(12).starting_on(start_date),
+    # )
+
+    # measures.define_measure(
+    #     name=f"count_virtual_{time_description}_monthly_age_sex",
+    #     numerator=count_virtual_consultation,
+    #     denominator=count_appointment,
+    #     group_by={
+    #         "age_band": age_band,
+    #         "sex": sex,
+    #     },
+    #     intervals=months(12).starting_on(start_date),
+    # )
+    
+    # measures.define_measure(
+    #     name=f"count_virtual_{time_description}_monthly_age_ethnicity",
+    #     numerator=count_virtual_consultation,
+    #     denominator=count_appointment,
+    #     group_by={
+    #         "age_band": age_band,
+    #         "ethnicity": ethnicity,
+    #     },
+    #     intervals=months(12).starting_on(start_date),
+    # )
+
+    # measures.define_measure(
+    #     name=f"count_virtual_{time_description}_monthly_age_imd_quintile",
+    #     numerator=count_virtual_consultation,
+    #     denominator=count_appointment,
+    #     group_by={
+    #         "age_band": age_band,
+    #         "imd_quintile": imd_quintile,
+    #     },
+    #     intervals=months(12).starting_on(start_date),
+    # )
