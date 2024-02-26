@@ -41,15 +41,13 @@ actions:
       highly_sensitive:
         study_population: output/consultation_dataset_2021-03-23_to_2022-03-22.arrow
 
-  generate_measures:
+  analyse_measure:
     run: >
-      ehrql:v1
-        generate-measures analysis/measures_definition.py
-        --dummy-tables dummy_tables
-        --output output/measures/consultation_measures.csv
+      r:latest analysis/analyse_consultation_measure.R
+    needs: [generate_measures]
     outputs:
       moderately_sensitive:
-        study_population: output/measures/consultation_measures.csv
+        results: output/results/consultation_model.txt
 
   tidy_measures:
     run: >
