@@ -80,9 +80,9 @@ combined_results <- bind_rows(combined_results, age_counts, sex_counts, ethnicit
 
 # Redact values less than 7
 combined_results <- combined_results %>%
-  mutate(count_virtual_consultation = ifelse(count_virtual_consultation <= 7, NA, count_virtual_consultation),
-         count_appointment = ifelse(count_appointment <= 7, NA, count_appointment))
+  mutate(count_virtual_consultation = ifelse(count_virtual_consultation < 7, NA, ceiling(count_virtual_consultation / 10) * 10),
+         count_appointment = ifelse(count_appointment < 7, NA, ceiling(count_appointment / 10) * 10))
 
 # Save the combined table to a file
 fs::dir_create(here::here("output", "data"))
-write.csv(combined_results, here::here("output", "data", "summary_consultation_datasets.csv"), na = "(Redacted)")
+write.csv(combined_results, here::here("output", "data", "summary_consultation_datasets.csv"))
