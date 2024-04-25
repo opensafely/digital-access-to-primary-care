@@ -78,4 +78,4 @@ combined_tidy <- bind_rows(tidy1, tidy2, tidy3, tidy4, tidy5)
 
 # Write data
 fs::dir_create(here::here("output", "results"))
-write.csv(combined_regression, here::here("output", "results", "combined_regression_result.csv"))
+write.csv(combined_tidy, here::here("output", "results", "combined_regression_result.csv"))
