@@ -57,12 +57,12 @@ consultation_datasets$remote <- ifelse(consultation_datasets$count_virtual_consu
 consultation_datasets <- consultation_datasets %>%
   mutate(remote_rate = remote / count_appointment)
 
-#Binomialo logit models with/without interactions
+#Binomial logit models with/without interactions
 model1 <- glm(remote_rate ~ age_band + sex + imd_quintile + ethnicity + period, data = consultation_datasets, family=binomial(link="logit"), weights= count_appointment)
 tidy1 <- tidy(model1, conf.int=TRUE, exponentiate = TRUE)
 
-# model2 <- glm(remote_rate ~ age_band + sex + imd_quintile + ethnicity + period + age_band*period, data = consultation_datasets, family=binomial(link="logit"), weights= count_appointment)
-# tidy2 <- tidy(model2, conf.int=TRUE, exponentiate = TRUE)
+model2 <- glm(remote_rate ~ age_band + sex + imd_quintile + ethnicity + period + age_band*period, data = consultation_datasets, family=binomial(link="logit"), weights= count_appointment)
+tidy2 <- tidy(model2, conf.int=TRUE, exponentiate = TRUE)
 
 model3 <- glm(remote_rate ~ age_band + sex + imd_quintile + ethnicity + period + sex*period, data = consultation_datasets, family=binomial(link="logit"), weights= count_appointment)
 tidy3 <- tidy(model3, conf.int=TRUE, exponentiate = TRUE)
@@ -74,7 +74,7 @@ model5 <- glm(remote_rate ~ age_band + sex + imd_quintile + ethnicity + period +
 tidy5 <- tidy(model5, conf.int=TRUE, exponentiate = TRUE)
 
 # Combine tidy results into a single data frame
-combined_tidy <- bind_rows(tidy1, tidy3, tidy4, tidy5)
+combined_tidy <- bind_rows(tidy1, tidy2, tidy3, tidy4, tidy5)
 
 # Write data
 fs::dir_create(here::here("output", "results"))
