@@ -67,6 +67,14 @@ actions:
        moderately_sensitive:
          datasets_summary: output/data/summary_consultation_datasets.csv
 
+  logit_regression:
+     run: >
+       r:latest analysis/logit_regression.R
+     needs: [generate_dataset_fy19to20, generate_dataset_fy20to21, generate_dataset_fy21to22]
+     outputs:
+       moderately_sensitive:
+         results: output/results/combined_regression_result.csv   
+
   nb_regression:
      run: >
        r:latest analysis/negative_binomial_model.R
