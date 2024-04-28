@@ -73,7 +73,7 @@ actions:
      needs: [generate_dataset_fy19to20, generate_dataset_fy20to21, generate_dataset_fy21to22]
      outputs:
        moderately_sensitive:
-         results: output/results/interaction_regression_result.csv   
+         results: output/results/logit_regression_result.csv   
 
   nb_regression:
      run: >

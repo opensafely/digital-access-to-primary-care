@@ -58,14 +58,24 @@ consultation_datasets$remote <- ifelse(consultation_datasets$count_virtual_consu
 consultation_datasets <- consultation_datasets %>%
   mutate(remote_rate = remote / count_appointment)
 
-#Interaction model
-model1 <- glm(remote_rate ~ age_band + sex + imd_quintile + ethnicity + period + 
-                age_band:period + sex:period + imd_quintile:period + ethnicity:period, 
+#Logistic regression without interaction
+model1 <- glm(remote_rate ~ age_band + sex + imd_quintile + ethnicity + period,
               data = consultation_datasets, family=binomial(link="logit"), weights= count_appointment)
 tidy1=cbind(exp(cbind(coef(model1), confint.default(model1))), summary(model1)$coefficients)  
 tidy1 = as.data.frame(tidy1)
 names(tidy1) = c('estimate','conf2.5%','conf97.5%', 'Estimate', 'Std. Error', 'z value', 'Pr(>|z|)')
 
+#Interaction model
+model2 <- glm(remote_rate ~ age_band + sex + imd_quintile + ethnicity + period + 
+                age_band:period + sex:period + imd_quintile:period + ethnicity:period, 
+              data = consultation_datasets, family=binomial(link="logit"), weights= count_appointment)
+tidy2=cbind(exp(cbind(coef(model2), confint.default(model2))), summary(model2)$coefficients)  
+tidy2 = as.data.frame(tidy2)
+names(tidy2) = c('estimate','conf2.5%','conf97.5%', 'Estimate', 'Std. Error', 'z value', 'Pr(>|z|)')
+
+#Combine tidy results into a single data frame
+combined_models <- bind_rows(tidy1, tidy2)
+
 # Write data
 fs::dir_create(here::here("output", "results"))
-write.csv(tidy1, here::here("output", "results", "interaction_regression_result.csv"))
+write.csv(combined_models, here::here("output", "results", "logit_regression_result.csv"))
