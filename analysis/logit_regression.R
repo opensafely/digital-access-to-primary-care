@@ -22,6 +22,7 @@ consultation_datasets <- consultation_dataset_paths %>%
   dplyr::mutate(file_name = stringr::str_extract(file_name, regex_get_dates)) %>%
   tidyr::separate(file_name, c("start_date", "end_date"), sep = "_to_")
 
+
 #transform variables into factors for the regression analyses
 consultation_datasets <- consultation_datasets %>%
   mutate(
@@ -57,25 +58,14 @@ consultation_datasets$remote <- ifelse(consultation_datasets$count_virtual_consu
 consultation_datasets <- consultation_datasets %>%
   mutate(remote_rate = remote / count_appointment)
 
-#Binomial logit models with/without interactions
-model1 <- glm(remote_rate ~ age_band + sex + imd_quintile + ethnicity + period, data = consultation_datasets, family=binomial(link="logit"), weights= count_appointment)
-tidy1 <- tidy(model1, conf.int=TRUE, exponentiate = TRUE)
-
-model2 <- glm(remote_rate ~ age_band + sex + imd_quintile + ethnicity + period + age_band*period, data = consultation_datasets, family=binomial(link="logit"), weights= count_appointment)
-tidy2 <- tidy(model2, conf.int=TRUE, exponentiate = TRUE)
-
-model3 <- glm(remote_rate ~ age_band + sex + imd_quintile + ethnicity + period + sex*period, data = consultation_datasets, family=binomial(link="logit"), weights= count_appointment)
-tidy3 <- tidy(model3, conf.int=TRUE, exponentiate = TRUE)
-
-model4 <- glm(remote_rate ~ age_band + sex + imd_quintile + ethnicity + period + imd_quintile*period, data = consultation_datasets, family=binomial(link="logit"), weights= count_appointment)
-tidy4 <- tidy(model4, conf.int=TRUE, exponentiate = TRUE)
-
-model5 <- glm(remote_rate ~ age_band + sex + imd_quintile + ethnicity + period + ethnicity*period, data = consultation_datasets, family=binomial(link="logit"), weights= count_appointment)
-tidy5 <- tidy(model5, conf.int=TRUE, exponentiate = TRUE)
-
-# Combine tidy results into a single data frame
-combined_tidy <- bind_rows(tidy1, tidy2, tidy3, tidy4, tidy5)
+#Interaction model
+model1 <- glm(remote_rate ~ age_band + sex + imd_quintile + ethnicity + period + 
+                age_band:period + sex:period + imd_quintile:period + ethnicity:period, 
+              data = consultation_datasets, family=binomial(link="logit"), weights= count_appointment)
+tidy1=cbind(exp(cbind(coef(model1), confint.default(model1))), summary(model1)$coefficients)  
+tidy1 = as.data.frame(tidy1)
+names(tidy1) = c('estimate','conf2.5%','conf97.5%', 'Estimate', 'Std. Error', 'z value', 'Pr(>|z|)')
 
 # Write data
 fs::dir_create(here::here("output", "results"))
-write.csv(combined_tidy, here::here("output", "results", "combined_regression_result.csv"))
+write.csv(tidy1, here::here("output", "results", "interaction_regression_result.csv"))
