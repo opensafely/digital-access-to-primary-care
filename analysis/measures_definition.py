@@ -98,7 +98,6 @@ age_band = case(
 
 # Define patient sex and date of death
 sex = patients.sex
-has_recorded_sex = patients.sex.is_in(["male", "female"])
 dod = patients.date_of_death
 
 # Define patient address: MSOA, rural-urban and IMD rank, using latest data for each patient
@@ -136,7 +135,7 @@ ethnicity = case(
 
 # Count number of seen appointments in the time period
 count_appointment = appointments_seen.where(
-    has_registration & (age >= 18) & has_recorded_sex
+    has_registration & (age >= 18)
 ).count_for_patient() 
 
 # Specify description and start dates for measures
@@ -158,9 +157,8 @@ for time_description, start_date in measures_start_dates.items():
             "sex": sex,
             "ethnicity": ethnicity,
             "imd_quintile": imd_quintile,
-
         },
-        intervals=years(1).starting_on(start_date),
+        intervals=months(12).starting_on(start_date),
     )
 
     # measures.define_measure(
